@@ -348,3 +348,27 @@ document.addEventListener('keydown', (e) => {
     if (videoModal.getAttribute('aria-hidden') === 'false') { videoModal.setAttribute('aria-hidden','true'); if(messageVideo) messageVideo.pause(); }
   }
 });
+
+// ---- Password gate MD5 ----
+const PW_GATE = document.getElementById('pw-gate');
+const PW_INPUT = document.getElementById('pw-input');
+const PW_SUBMIT = document.getElementById('pw-submit');
+const PW_ERROR = document.getElementById('pw-error');
+
+// Thay chuỗi bên dưới bằng MD5 hash của mật khẩu bạn chọn
+const PASSWORD_HASH_MD5 = "81dc9bdb52d04dc20036dbd8313ed055"; // = MD5("1234")
+
+PW_SUBMIT.addEventListener('click', () => {
+  const input = PW_INPUT.value.trim();
+  if (md5(input) === PASSWORD_HASH_MD5) {
+    PW_GATE.style.display = 'none'; // mở khóa
+  } else {
+    PW_ERROR.style.display = 'block';
+    PW_INPUT.value = "";
+  }
+});
+
+// Cho phép Enter
+PW_INPUT.addEventListener('keydown', (e) => {
+  if (e.key === "Enter") PW_SUBMIT.click();
+});

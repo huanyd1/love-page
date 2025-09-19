@@ -14,6 +14,21 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- PASSWORD GATE -->
+<div id="pw-gate" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#000000cc;z-index:9999">
+  <div style="background:white;padding:20px;border-radius:12px;max-width:420px;width:92%;text-align:center">
+    <h3 style="margin:0 0 8px">Nhập mật khẩu (4 số)</h3>
+    <input id="pw-input" type="password" maxlength="4" placeholder="****" style="width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;font-size:20px;text-align:center;letter-spacing:6px" />
+    <div style="margin-top:12px">
+      <button id="pw-submit" style="padding:10px 16px;border-radius:8px;background:#ff4d6d;color:#fff;border:none;font-size:16px">Mở</button>
+    </div>
+    <p id="pw-error" style="color:#c33;margin-top:8px;display:none">Sai mật khẩu — thử lại.</p>
+  </div>
+</div>
+
+<!-- Thư viện MD5 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>
+
   <!-- Top controls -->
   <div class="top-controls" aria-hidden="true">
     <button id="dark-toggle" title="Bật/tắt chế độ tối">🌙</button>
