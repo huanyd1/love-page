@@ -5,18 +5,19 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Kỷ niệm của chúng ta ❤️</title>
 
-  <!-- Swiper (carousel) -->
+  <!-- Swiper CSS (carousel) -->
   <link rel="stylesheet" href="https://unpkg.com/swiper@9/swiper-bundle.min.css" />
-  <!-- AOS (scroll animations) -->
+  <!-- AOS CSS (optional; we use IntersectionObserver but keep for aesthetics) -->
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
 
+  <!-- Main style -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- DARK MODE TOGGLE -->
-  <div class="top-controls">
-    <button id="dark-toggle" aria-label="Toggle dark mode">🌙</button>
-    <button id="play-toggle" aria-label="Music toggle">🔊</button>
+  <!-- Top controls -->
+  <div class="top-controls" aria-hidden="true">
+    <button id="dark-toggle" title="Bật/tắt chế độ tối">🌙</button>
+    <button id="play-toggle" title="Phát/tắt nhạc">🔊</button>
   </div>
 
   <!-- Welcome / Thiệp mở đầu -->
@@ -45,14 +46,14 @@
         </div>
         <div class="stat">
           <div class="stat-value" id="next-countdown">--</div>
-          <div class="stat-label">Đếm ngược (sự kiện tiếp theo)</div>
+          <div class="stat-label" id="next-label">Đếm ngược</div>
         </div>
       </div>
 
       <div class="hero-actions">
         <button id="open-timeline">Xem timeline</button>
         <button id="open-gallery">Xem album ảnh</button>
-        <button id="surprise-btn">Bấm bất ngờ ❤️</button>
+        <button id="surprise-btn">Bất ngờ ❤️</button>
         <button id="open-game">Chơi nhỏ</button>
       </div>
     </div>
@@ -61,20 +62,17 @@
   <main class="main">
     <!-- Timeline -->
     <section id="timeline-section" class="section">
-      <h2 data-aos="fade-up">Timeline</h2>
-      <p class="hint">Chỉnh nội dung dễ dàng trong <code>script.js</code> → mảng <code>TIMELINE</code>.</p>
+      <h2>Timeline</h2>
+      <p class="hint">Chỉnh nội dung trong <code>script.js</code> → mảng <code>TIMELINE</code>.</p>
       <div id="timeline" class="timeline"></div>
     </section>
 
     <!-- Gallery with Swiper -->
     <section id="gallery-section" class="section">
-      <h2 data-aos="fade-up">Album ảnh</h2>
-      <div class="gallery-wrap" data-aos="fade-up">
+      <h2>Album ảnh</h2>
+      <div class="gallery-wrap">
         <div class="swiper mySwiper">
-          <div class="swiper-wrapper" id="swiper-wrapper">
-            <!-- slides injected by JS -->
-          </div>
-          <!-- controls -->
+          <div class="swiper-wrapper" id="swiper-wrapper"></div>
           <div class="swiper-button-next"></div>
           <div class="swiper-button-prev"></div>
           <div class="swiper-pagination"></div>
@@ -82,11 +80,11 @@
       </div>
 
       <p class="hint">Hoặc xem lưới ảnh:</p>
-      <div id="gallery" class="gallery" data-aos="fade-up"></div>
+      <div id="gallery" class="gallery"></div>
     </section>
 
     <!-- Video message -->
-    <section id="video-section" class="section" data-aos="fade-up">
+    <section id="video-section" class="section">
       <h2>Video lời nhắn</h2>
       <div class="video-card">
         <button id="open-video" class="primary">Xem lời nhắn</button>
@@ -94,7 +92,7 @@
     </section>
 
     <!-- Mini game -->
-    <section id="game-section" class="section" data-aos="fade-up">
+    <section id="game-section" class="section">
       <h2>Mini-game: Chọn trái tim</h2>
       <p class="hint">Chọn một trái tim để nhận lời chúc bất ngờ.</p>
       <div id="hearts-game" class="hearts-game"></div>
@@ -102,7 +100,7 @@
     </section>
 
     <!-- Ending -->
-    <section id="ending" class="section ending" data-aos="fade-up">
+    <section id="ending" class="section ending">
       <h2>Kết</h2>
       <p>Mình sẽ còn viết tiếp câu chuyện cùng em ❤️</p>
       <button id="top-btn">Về đầu trang</button>
@@ -123,16 +121,17 @@
     <video id="message-video" controls class="message-video" src="videos/message.mp4"></video>
   </div>
 
-  <!-- Audio element -->
+  <!-- Audio element (place music.mp3 in root if used) -->
   <audio id="bg-music" src="music.mp3" preload="none" loop></audio>
 
   <!-- Canvas for hearts -->
   <canvas id="hearts-canvas"></canvas>
 
-  <!-- Libraries -->
+  <!-- Libs -->
   <script src="https://unpkg.com/swiper@9/swiper-bundle.min.js"></script>
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
+  <!-- Main script -->
   <script src="script.js"></script>
 </body>
 </html>
