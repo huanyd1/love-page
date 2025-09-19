@@ -4,42 +4,112 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Kỷ niệm của chúng ta ❤️</title>
+
+  <!-- Swiper (carousel) -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper@9/swiper-bundle.min.css" />
+  <!-- AOS (scroll animations) -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- DARK MODE TOGGLE -->
+  <div class="top-controls">
+    <button id="dark-toggle" aria-label="Toggle dark mode">🌙</button>
+    <button id="play-toggle" aria-label="Music toggle">🔊</button>
+  </div>
+
+  <!-- Welcome / Thiệp mở đầu -->
+  <div id="welcome" class="welcome-overlay" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+    <div class="welcome-card" role="document">
+      <h2 id="welcome-title">Mở thiệp kỷ niệm</h2>
+      <p class="welcome-sub">Nhấn "Mở thiệp" để xem kỷ niệm, bật nhạc và nhận bất ngờ. Chúc em một ngày thật ngọt ngào 💕</p>
+      <div class="welcome-actions">
+        <button id="open-card" class="primary">Mở thiệp</button>
+        <button id="open-play" class="secondary">Phát nhạc</button>
+      </div>
+      <p class="welcome-hint">Nếu nhạc không tự phát trên điện thoại, hãy nhấn "Phát nhạc".</p>
+    </div>
+  </div>
+
+  <!-- Header / Hero -->
   <header class="hero">
     <div class="hero-inner">
       <h1 id="hero-title">Kỷ niệm của chúng ta</h1>
-      <p class="subtitle">Những khoảnh khắc đã qua &amp; những chương sắp tới...</p>
+      <p class="subtitle" id="subtitle">Những khoảnh khắc đã qua &amp; những chương sắp tới...</p>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-value" id="days-together">--</div>
+          <div class="stat-label">Ngày bên nhau</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="next-countdown">--</div>
+          <div class="stat-label">Đếm ngược (sự kiện tiếp theo)</div>
+        </div>
+      </div>
+
       <div class="hero-actions">
         <button id="open-timeline">Xem timeline</button>
         <button id="open-gallery">Xem album ảnh</button>
-        <button id="surprise-btn">Nhấn để bất ngờ ❤️</button>
+        <button id="surprise-btn">Bấm bất ngờ ❤️</button>
+        <button id="open-game">Chơi nhỏ</button>
       </div>
     </div>
   </header>
 
   <main class="main">
+    <!-- Timeline -->
     <section id="timeline-section" class="section">
-      <h2>Timeline</h2>
+      <h2 data-aos="fade-up">Timeline</h2>
       <p class="hint">Chỉnh nội dung dễ dàng trong <code>script.js</code> → mảng <code>TIMELINE</code>.</p>
-      <div id="timeline" class="timeline" aria-live="polite"></div>
+      <div id="timeline" class="timeline"></div>
     </section>
 
+    <!-- Gallery with Swiper -->
     <section id="gallery-section" class="section">
-      <h2>Album ảnh</h2>
-      <p class="hint">Thêm/bỏ ảnh trong thư mục <code>images/</code> và cập nhật mảng <code>GALLERY</code>.</p>
-      <div id="gallery" class="gallery"></div>
+      <h2 data-aos="fade-up">Album ảnh</h2>
+      <div class="gallery-wrap" data-aos="fade-up">
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper" id="swiper-wrapper">
+            <!-- slides injected by JS -->
+          </div>
+          <!-- controls -->
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+
+      <p class="hint">Hoặc xem lưới ảnh:</p>
+      <div id="gallery" class="gallery" data-aos="fade-up"></div>
     </section>
 
-    <section id="ending" class="section ending">
+    <!-- Video message -->
+    <section id="video-section" class="section" data-aos="fade-up">
+      <h2>Video lời nhắn</h2>
+      <div class="video-card">
+        <button id="open-video" class="primary">Xem lời nhắn</button>
+      </div>
+    </section>
+
+    <!-- Mini game -->
+    <section id="game-section" class="section" data-aos="fade-up">
+      <h2>Mini-game: Chọn trái tim</h2>
+      <p class="hint">Chọn một trái tim để nhận lời chúc bất ngờ.</p>
+      <div id="hearts-game" class="hearts-game"></div>
+      <div id="game-result" class="game-result" aria-live="polite"></div>
+    </section>
+
+    <!-- Ending -->
+    <section id="ending" class="section ending" data-aos="fade-up">
       <h2>Kết</h2>
       <p>Mình sẽ còn viết tiếp câu chuyện cùng em ❤️</p>
       <button id="top-btn">Về đầu trang</button>
     </section>
   </main>
 
-  <!-- Modal / lightbox -->
+  <!-- Lightbox / Image fullscreen -->
   <div id="lightbox" class="lightbox" aria-hidden="true">
     <button class="lb-close" aria-label="Đóng">✕</button>
     <button class="lb-prev" aria-label="Trước">‹</button>
@@ -47,16 +117,21 @@
     <button class="lb-next" aria-label="Tiếp">›</button>
   </div>
 
-  <!-- Optional background music -->
-  <!-- Nếu muốn bật nhạc: đặt file music.mp3 vào cùng thư mục và bật src -->
-  <audio id="bg-music" src="music.mp3" preload="none"></audio>
-  <div class="music-controls">
-    <button id="music-toggle">Bật nhạc</button>
-    <label>Âm lượng <input id="music-vol" type="range" min="0" max="1" step="0.01" value="0.8"></label>
+  <!-- Video modal -->
+  <div id="video-modal" class="lightbox" aria-hidden="true">
+    <button class="lb-close" aria-label="Đóng">✕</button>
+    <video id="message-video" controls class="message-video" src="videos/message.mp4"></video>
   </div>
 
-  <!-- Hearts canvas (pointer-events none so clicks work) -->
+  <!-- Audio element -->
+  <audio id="bg-music" src="music.mp3" preload="none" loop></audio>
+
+  <!-- Canvas for hearts -->
   <canvas id="hearts-canvas"></canvas>
+
+  <!-- Libraries -->
+  <script src="https://unpkg.com/swiper@9/swiper-bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
   <script src="script.js"></script>
 </body>
