@@ -130,3 +130,65 @@ body.dark{
   color:var(--text);
 }
 body.dark .welcome-card{background:rgba(255,255,255,0.02);box-shadow:0 20px 60px rgba(0,0,0,0.7)}
+
+/* Password gate */
+.pw-gate {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.pw-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  text-align: center;
+  width: 260px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.pw-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 12px 0 20px;
+}
+.pw-dots span {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #999;
+  background: #fff;
+}
+.pw-dots span.filled {
+  background: #ff4d6d;
+  border-color: #ff4d6d;
+}
+
+.pw-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.pw-keypad button {
+  padding: 14px;
+  font-size: 18px;
+  border: none;
+  border-radius: 10px;
+  background: #f0f0f0;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.pw-keypad button:hover {
+  background: #ddd;
+}
+.pw-error {
+  color: #c33;
+  font-size: 14px;
+  margin-top: 10px;
+  display: none;
+}

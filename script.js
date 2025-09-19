@@ -372,3 +372,57 @@ PW_SUBMIT.addEventListener('click', () => {
 PW_INPUT.addEventListener('keydown', (e) => {
   if (e.key === "Enter") PW_SUBMIT.click();
 });
+
+// ---- Password gate với keypad ----
+const PW_GATE = document.getElementById('pw-gate');
+const PW_DOTS = document.querySelectorAll('#pw-dots span');
+const PW_ERROR = document.getElementById('pw-error');
+const PW_CLEAR = document.getElementById('pw-clear');
+const PW_OK = document.getElementById('pw-ok');
+const PW_BTNS = document.querySelectorAll('.pw-keypad button:not(#pw-clear):not(#pw-ok)');
+
+// Mật khẩu: 1234 (MD5 hash)
+const PASSWORD_HASH_MD5 = "81dc9bdb52d04dc20036dbd8313ed055";
+
+let inputCode = "";
+
+// Cập nhật chấm
+function updateDots() {
+  PW_DOTS.forEach((dot, i) => {
+    dot.classList.toggle('filled', i < inputCode.length);
+  });
+}
+
+function checkPassword() {
+  if (md5(inputCode) === PASSWORD_HASH_MD5) {
+    PW_GATE.style.display = 'none';
+    PW_ERROR.style.display = 'none';
+  } else {
+    PW_ERROR.style.display = 'block';
+    inputCode = "";
+    updateDots();
+  }
+}
+
+// Xử lý bấm số
+PW_BTNS.forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (inputCode.length < 4) {
+      inputCode += btn.textContent;
+      updateDots();
+    }
+  });
+});
+
+// Xoá
+PW_CLEAR.addEventListener('click', () => {
+  inputCode = inputCode.slice(0, -1);
+  updateDots();
+});
+
+// OK
+PW_OK.addEventListener('click', () => {
+  if (inputCode.length === 4) {
+    checkPassword();
+  }
+});
