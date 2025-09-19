@@ -1,0 +1,161 @@
+/* style.css - mẫu trang kỷ niệm (responsive, dễ chỉnh) */
+:root{
+  --bg1: #fff0f6;
+  --bg2: #ffdbe6;
+  --accent: #ff4d6d;
+  --muted: #6b6b6b;
+  --card-bg: rgba(255,255,255,0.85);
+}
+
+*{box-sizing: border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(135deg,var(--bg1),var(--bg2));
+  color:#222;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+
+/* Hero */
+.hero{
+  padding:48px 16px;
+  text-align:center;
+  position:relative;
+}
+.hero-inner{
+  max-width:900px;
+  margin:0 auto;
+  background:var(--card-bg);
+  border-radius:14px;
+  padding:36px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+h1{font-size:2.2rem;margin:0 0 8px;color:var(--accent)}
+.subtitle{margin:0 0 18px;color:var(--muted)}
+
+/* Buttons */
+button{
+  background:var(--accent);
+  color:white;
+  border:none;
+  padding:10px 16px;
+  border-radius:999px;
+  cursor:pointer;
+  font-weight:600;
+  margin:6px;
+}
+button.secondary{background:transparent;color:var(--accent);border:2px solid var(--accent)}
+
+/* Main layout */
+.main{max-width:1000px;margin:28px auto;padding:0 16px 80px}
+.section{margin-bottom:36px}
+.section h2{margin:0 0 10px;color:var(--accent)}
+.hint{color:var(--muted);margin:0 0 14px;font-size:0.95rem}
+
+/* Timeline (vertical) */
+.timeline{
+  position:relative;
+  padding-left:24px;
+}
+.timeline::before{
+  content:"";
+  position:absolute;
+  left:12px;
+  top:0;
+  bottom:0;
+  width:3px;
+  background:linear-gradient(#ffd3df,#ffb6c9);
+  border-radius:3px;
+}
+.timeline-item{
+  position:relative;
+  margin:18px 0 18px 30px;
+  padding:14px;
+  background:white;
+  border-radius:12px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.06);
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+}
+.timeline-badge{
+  position:absolute;
+  left:-42px;
+  top:14px;
+  width:28px;height:28px;
+  border-radius:50%;
+  background:var(--accent);
+  color:white;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+.timeline-item img{
+  width:96px;height:72px;object-fit:cover;border-radius:8px;
+}
+.timeline-item .meta{flex:1}
+.timeline-item h3{margin:0 0 6px;font-size:1.05rem;color:#333}
+.timeline-item time{display:block;color:var(--muted);font-size:0.9rem;margin-bottom:8px}
+.timeline-item p{margin:0;color:#444}
+
+/* Gallery */
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:12px;
+}
+.gallery img{
+  width:100%;
+  height:140px;
+  object-fit:cover;
+  border-radius:8px;
+  display:block;
+  cursor:pointer;
+  transition:transform .18s;
+}
+.gallery img:hover{transform:scale(1.03)}
+
+/* Lightbox */
+.lightbox{
+  position:fixed;inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,0.6);
+  z-index:9999;
+}
+.lightbox[aria-hidden="false"]{display:flex}
+.lightbox .lb-img{max-width:90%;max-height:80%;border-radius:6px;box-shadow:0 12px 40px rgba(0,0,0,0.6)}
+.lb-close,.lb-prev,.lb-next{
+  position:fixed;background:transparent;border:none;color:white;font-size:28px;
+  cursor:pointer;
+}
+.lb-close{right:22px;top:22px}
+.lb-prev{left:22px;top:50%;transform:translateY(-50%);font-size:36px}
+.lb-next{right:22px;top:50%;transform:translateY(-50%);font-size:36px}
+
+/* Ending */
+.ending{text-align:center;padding:22px;background:var(--card-bg);border-radius:12px}
+
+/* Music controls */
+.music-controls{
+  position:fixed;left:12px;bottom:12px;background:rgba(255,255,255,0.9);padding:8px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  display:flex;gap:8px;align-items:center;z-index:1000;
+}
+.music-controls input[type="range"]{width:100px}
+
+/* Canvas covers entire screen but pointer-events none so UI still clickable */
+#hearts-canvas{
+  position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:500;
+}
+
+/* Responsive */
+@media (max-width:600px){
+  .hero-inner{padding:20px}
+  h1{font-size:1.6rem}
+  .timeline-item{flex-direction:column;align-items:flex-start}
+  .timeline-item img{width:100%;height:180px}
+}
