@@ -1,159 +1,168 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Kỷ niệm của chúng ta ❤️</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Kỷ Niệm Yêu</title>
+<style>
+  :root {
+    --bg-color: #fff;
+    --text-color: #000;
+    --accent-color: #ff6b81;
+  }
+  body {
+    margin:0;
+    font-family: Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: 0.3s;
+  }
+  body.dark {
+    --bg-color: #121212;
+    --text-color: #f0f0f0;
+  }
+  /* Login */
+  #login {
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    height:100vh; background:#f9f9f9;
+  }
+  #login input { padding:10px; font-size:16px; margin-bottom:10px; }
+  #login button { padding:10px 20px; font-size:16px; cursor:pointer; }
 
-  <!-- Swiper CSS (carousel) -->
-  <link rel="stylesheet" href="https://unpkg.com/swiper@9/swiper-bundle.min.css" />
-  <!-- AOS CSS (optional; we use IntersectionObserver but keep for aesthetics) -->
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  /* Main Content */
+  #mainContent { display:none; padding:20px; max-width:800px; margin:auto; }
+  .section { margin-bottom:40px; }
+  h2 { color: var(--accent-color); }
 
-  <!-- Main style -->
-  <link rel="stylesheet" href="style.css">
+  /* Timeline */
+  .timeline { border-left:2px solid var(--accent-color); padding-left:20px; }
+  .event { margin-bottom:20px; }
+
+  /* Album */
+  .album { display:grid; grid-template-columns: repeat(auto-fill,minmax(100px,1fr)); gap:10px; }
+  .album img { width:100%; border-radius:10px; }
+
+  /* Mini game */
+  #game { display:flex; flex-direction:column; align-items:center; }
+  #game button { padding:10px 20px; font-size:16px; cursor:pointer; margin-top:10px; }
+
+  /* Dark mode toggle */
+  #darkModeBtn { position:fixed; top:10px; right:10px; padding:10px; cursor:pointer; }
+</style>
 </head>
 <body>
-  
 
-<!-- PASSWORD GATE -->
-<div id="pw-gate" class="pw-gate">
-  <div class="pw-box">
-    <h3>Nhập mật khẩu (4 số)</h3>
-    <div id="pw-dots" class="pw-dots">
-      <span></span><span></span><span></span><span></span>
-    </div>
-    <div class="pw-keypad">
-      <button>1</button><button>2</button><button>3</button>
-      <button>4</button><button>5</button><button>6</button>
-      <button>7</button><button>8</button><button>9</button>
-      <button id="pw-clear">⌫</button><button>0</button><button id="pw-ok">✔</button>
-    </div>
-    <p id="pw-error" class="pw-error">Sai mật khẩu — thử lại</p>
-  </div>
+<!-- Login -->
+<div id="login">
+  <h1>Nhập mật khẩu để vào web</h1>
+  <input type="password" id="pass" placeholder="Mật khẩu">
+  <button onclick="checkPassword()">Vào Web</button>
 </div>
 
-<!-- Thư viện MD5 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>
+<!-- Main Content -->
+<div id="mainContent">
 
-  <!-- Top controls -->
-  <div class="top-controls" aria-hidden="true">
-    <button id="dark-toggle" title="Bật/tắt chế độ tối">🌙</button>
-    <button id="play-toggle" title="Phát/tắt nhạc">🔊</button>
+  <!-- Dark mode button -->
+  <button id="darkModeBtn" onclick="toggleDarkMode()">Dark Mode</button>
+
+  <!-- 1. Đếm ngày yêu -->
+  <div class="section">
+    <h2>Đếm ngày yêu</h2>
+    <p id="loveDays"></p>
   </div>
 
-  <!-- Welcome / Thiệp mở đầu -->
-  <div id="welcome" class="welcome-overlay" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
-    <div class="welcome-card" role="document">
-      <h2 id="welcome-title">Mở thiệp kỷ niệm</h2>
-      <p class="welcome-sub">Nhấn "Mở thiệp" để xem kỷ niệm, bật nhạc và nhận bất ngờ. Chúc em một ngày thật ngọt ngào 💕</p>
-      <div class="welcome-actions">
-        <button id="open-card" class="primary">Mở thiệp</button>
-        <button id="open-play" class="secondary">Phát nhạc</button>
-      </div>
-      <p class="welcome-hint">Nếu nhạc không tự phát trên điện thoại, hãy nhấn "Phát nhạc".</p>
+  <!-- 2. Nhắc nhở kỷ niệm -->
+  <div class="section">
+    <h2>Nhắc nhở kỷ niệm</h2>
+    <ul id="reminders"></ul>
+  </div>
+
+  <!-- 3. Album ảnh -->
+  <div class="section">
+    <h2>Album ảnh</h2>
+    <div class="album">
+      <img src="https://via.placeholder.com/150" alt="Ảnh 1">
+      <img src="https://via.placeholder.com/150" alt="Ảnh 2">
+      <img src="https://via.placeholder.com/150" alt="Ảnh 3">
     </div>
   </div>
 
-  <!-- Header / Hero -->
-  <header class="hero">
-    <div class="hero-inner">
-      <h1 id="hero-title">Kỷ niệm của chúng ta</h1>
-      <p class="subtitle" id="subtitle">Những khoảnh khắc đã qua &amp; những chương sắp tới...</p>
+  <!-- 4. Dòng thời gian -->
+  <div class="section">
+    <h2>Dòng thời gian kỷ niệm</h2>
+    <div class="timeline" id="timeline"></div>
+  </div>
 
-      <div class="hero-stats">
-        <div class="stat">
-          <div class="stat-value" id="days-together">--</div>
-          <div class="stat-label">Ngày bên nhau</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value" id="next-countdown">--</div>
-          <div class="stat-label" id="next-label">Đếm ngược</div>
-        </div>
-      </div>
-
-      <div class="hero-actions">
-        <button id="open-timeline">Xem timeline</button>
-        <button id="open-gallery">Xem album ảnh</button>
-        <button id="surprise-btn">Bất ngờ ❤️</button>
-        <button id="open-game">Chơi nhỏ</button>
-      </div>
+  <!-- 5. Mini game -->
+  <div class="section">
+    <h2>Mini Game: Click Tim</h2>
+    <div id="game">
+      <p>Điểm: <span id="score">0</span></p>
+      <button onclick="addPoint()">Click Tim ❤️</button>
     </div>
-  </header>
-
-  <main class="main">
-    <!-- Timeline -->
-    <section id="timeline-section" class="section">
-      <h2>Timeline</h2>
-      <p class="hint">Chỉnh nội dung trong <code>script.js</code> → mảng <code>TIMELINE</code>.</p>
-      <div id="timeline" class="timeline"></div>
-    </section>
-
-    <!-- Gallery with Swiper -->
-    <section id="gallery-section" class="section">
-      <h2>Album ảnh</h2>
-      <div class="gallery-wrap">
-        <div class="swiper mySwiper">
-          <div class="swiper-wrapper" id="swiper-wrapper"></div>
-          <div class="swiper-button-next"></div>
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-pagination"></div>
-        </div>
-      </div>
-
-      <p class="hint">Hoặc xem lưới ảnh:</p>
-      <div id="gallery" class="gallery"></div>
-    </section>
-
-    <!-- Video message -->
-    <section id="video-section" class="section">
-      <h2>Video lời nhắn</h2>
-      <div class="video-card">
-        <button id="open-video" class="primary">Xem lời nhắn</button>
-      </div>
-    </section>
-
-    <!-- Mini game -->
-    <section id="game-section" class="section">
-      <h2>Mini-game: Chọn trái tim</h2>
-      <p class="hint">Chọn một trái tim để nhận lời chúc bất ngờ.</p>
-      <div id="hearts-game" class="hearts-game"></div>
-      <div id="game-result" class="game-result" aria-live="polite"></div>
-    </section>
-
-    <!-- Ending -->
-    <section id="ending" class="section ending">
-      <h2>Kết</h2>
-      <p>Mình sẽ còn viết tiếp câu chuyện cùng em ❤️</p>
-      <button id="top-btn">Về đầu trang</button>
-    </section>
-  </main>
-
-  <!-- Lightbox / Image fullscreen -->
-  <div id="lightbox" class="lightbox" aria-hidden="true">
-    <button class="lb-close" aria-label="Đóng">✕</button>
-    <button class="lb-prev" aria-label="Trước">‹</button>
-    <img class="lb-img" src="" alt="">
-    <button class="lb-next" aria-label="Tiếp">›</button>
   </div>
 
-  <!-- Video modal -->
-  <div id="video-modal" class="lightbox" aria-hidden="true">
-    <button class="lb-close" aria-label="Đóng">✕</button>
-    <video id="message-video" controls class="message-video" src="videos/message.mp4"></video>
-  </div>
+</div>
 
-  <!-- Audio element (place music.mp3 in root if used) -->
-  <audio id="bg-music" src="music.mp3" preload="none" loop></audio>
+<!-- Nhạc nền -->
+<audio autoplay loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
 
-  <!-- Canvas for hearts -->
-  <canvas id="hearts-canvas"></canvas>
+<script>
+  // --- Password ---
+  const correctPassword = "love123";
+  function checkPassword() {
+    const pass = document.getElementById('pass').value;
+    if(pass === correctPassword) {
+      document.getElementById('login').style.display = 'none';
+      document.getElementById('mainContent').style.display = 'block';
+    } else alert("Sai mật khẩu!");
+  }
 
-  <!-- Libs -->
-  <script src="https://unpkg.com/swiper@9/swiper-bundle.min.js"></script>
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  // --- Đếm ngày yêu ---
+  const startDate = new Date("2024-01-01");
+  function updateDays() {
+    const now = new Date();
+    const diffTime = now - startDate;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    document.getElementById('loveDays').innerText = `Đã yêu nhau ${diffDays} ngày`;
+  }
+  updateDays();
+  setInterval(updateDays, 1000 * 60 * 60);
 
-  <!-- Main script -->
-  <script src="script.js"></script>
+  // --- Nhắc nhở kỷ niệm ---
+  const events = [
+    { date: "2025-09-25", name: "Ngày đầu gặp nhau" },
+    { date: "2025-10-20", name: "Sinh nhật người yêu" }
+  ];
+  const remindersEl = document.getElementById('reminders');
+  events.forEach(e => {
+    const li = document.createElement('li');
+    li.innerText = `${e.date} - ${e.name}`;
+    remindersEl.appendChild(li);
+  });
+
+  // --- Timeline ---
+  const timelineEl = document.getElementById('timeline');
+  events.forEach(e => {
+    const div = document.createElement('div');
+    div.classList.add('event');
+    div.innerText = `${e.date}: ${e.name}`;
+    timelineEl.appendChild(div);
+  });
+
+  // --- Mini game ---
+  let score = 0;
+  function addPoint() {
+    score++;
+    document.getElementById('score').innerText = score;
+  }
+
+  // --- Dark mode ---
+  function toggleDarkMode() {
+    document.body.classList.toggle('dark');
+  }
+</script>
 </body>
 </html>
