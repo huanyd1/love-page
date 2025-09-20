@@ -133,3 +133,29 @@ function checkPuzzle(){
 
 // --- Dark mode ---
 function toggleDarkMode(){ document.body.classList.toggle('dark'); }
+
+// --- Tạo numpad cho login ---
+const numpad = document.getElementById('numpad');
+const passInput = document.getElementById('passInput');
+const PASSWORD = "1234"; // bạn đổi mật khẩu tại đây
+
+['1','2','3','4','5','6','7','8','9','0','Xóa','OK'].forEach(key=>{
+  const btn=document.createElement('button');
+  btn.textContent=key;
+  btn.onclick=()=>{
+    if(key==="Xóa"){
+      passInput.value=passInput.value.slice(0,-1);
+    } else if(key==="OK"){
+      if(passInput.value===PASSWORD){
+        document.getElementById('login').style.display="none";
+        document.getElementById('main').style.display="block";
+      } else {
+        alert("Sai mật khẩu rồi 😢");
+        passInput.value="";
+      }
+    } else {
+      passInput.value+=key;
+    }
+  };
+  numpad.appendChild(btn);
+});

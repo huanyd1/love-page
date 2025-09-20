@@ -296,3 +296,27 @@ body.dark .glass-box {
   background: rgba(30,30,30,0.6);
   border: 1px solid rgba(255,255,255,0.1);
 }
+
+#numpad {
+  display: grid;
+  grid-template-columns: repeat(3, 70px);
+  gap: 15px;
+  margin-top: 10px;
+}
+
+#numpad button {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  font-size: 20px;
+  border: none;
+  background: linear-gradient(145deg,#ff69b4,#ff1493);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  transition: all 0.3s ease;
+}
+#numpad button:hover {
+  transform: scale(1.15);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
