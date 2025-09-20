@@ -1,86 +1,62 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Web Kỷ Niệm Yêu</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Kỷ niệm tình yêu 💕</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<!-- Login -->
-<div id="login">
-  <div class="left"></div>
-  <div class="right">
-    <h1>Nhập mật khẩu</h1>
-    <input type="password" id="pass" placeholder="Mật khẩu" readonly>
-    <div id="keypad">
-      <button onclick="pressKey('1')">1</button>
-      <button onclick="pressKey('2')">2</button>
-      <button onclick="pressKey('3')">3</button>
-      <button onclick="pressKey('4')">4</button>
-      <button onclick="pressKey('5')">5</button>
-      <button onclick="pressKey('6')">6</button>
-      <button onclick="pressKey('7')">7</button>
-      <button onclick="pressKey('8')">8</button>
-      <button onclick="pressKey('9')">9</button>
-      <button onclick="clearPass()">C</button>
-      <button onclick="pressKey('0')">0</button>
-      <button onclick="checkPassword()">OK</button>
+  <!-- Màn hình đăng nhập -->
+  <div id="login">
+    <div class="login-left"></div>
+    <div class="login-right">
+      <h2>Nhập mật khẩu 💖</h2>
+      <input type="password" id="passInput" readonly>
+      <div id="numpad"></div>
     </div>
   </div>
-</div>
 
-<!-- Main Content -->
-<div id="mainContent">
+  <!-- Nội dung chính -->
+  <div id="main" style="display:none;">
+    <section id="counter" class="glass-box">
+      <h2>Đếm ngày yêu 💞</h2>
+      <p><span id="daysTogether"></span></p>
+    </section>
 
-  <button id="darkModeBtn" onclick="toggleDarkMode()">Dark Mode</button>
+    <section id="reminder" class="glass-box">
+      <h2>Nhắc nhở kỷ niệm 📅</h2>
+      <p id="nextEvent"></p>
+    </section>
 
-  <section class="section">
-    <h2>Đếm ngày yêu</h2>
-    <p id="loveDays"></p>
-  </section>
+    <section id="album" class="glass-box">
+      <h2>Album ảnh 📸</h2>
+      <div id="slidesContainer"></div>
+      <button onclick="prevSlide()">⏪</button>
+      <button onclick="nextSlide()">⏩</button>
+    </section>
 
-  <section class="section">
-    <h2>Nhắc nhở kỷ niệm</h2>
-    <p id="nextEvent"></p>
-  </section>
+    <section id="timeline" class="glass-box">
+      <h2>Dòng thời gian kỷ niệm 🕒</h2>
+      <div id="timeline"></div>
+    </section>
 
-  <section class="section">
-    <h2>Album ảnh</h2>
-    <div id="slideshow">
-      <button id="prev" onclick="prevSlide()">&#10094;</button>
-      <button id="next" onclick="nextSlide()">&#10095;</button>
-      <div class="slides-container" id="slidesContainer"></div>
-    </div>
-  </section>
-
-  <section class="section">
-    <h2>Dòng thời gian kỷ niệm</h2>
-    <div class="timeline" id="timeline"></div>
-  </section>
-
-  <section class="section">
-    <h2>Mini Game</h2>
-    <div id="game">
+    <section id="game" class="glass-box">
+      <h2>Mini Game 🎮</h2>
+      <button onclick="clickLove()">Click tim ❤️</button>
       <p>Điểm: <span id="score">0</span></p>
-      <button onclick="clickLove()">Click Tim ❤️</button>
       <p id="gameMsg"></p>
+      <div id="puzzleContainer"></div>
+    </section>
 
-      <h3>Puzzle Kỷ Niệm</h3>
-      <div id="puzzleGame">
-        <p>Kéo thả ảnh theo thứ tự ngày kỷ niệm</p>
-        <div id="puzzleContainer" class="puzzle-container"></div>
-      </div>
-    </div>
-  </section>
+    <section class="glass-box">
+      <button onclick="toggleDarkMode()">🌙 Bật/Tắt Dark Mode</button>
+    </section>
 
-</div>
+    <audio id="bgMusic" autoplay loop>
+      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+  </div>
 
-<audio id="bgMusic" autoplay loop>
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-</audio>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

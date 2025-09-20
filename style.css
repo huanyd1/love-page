@@ -40,16 +40,24 @@ body {
 }
 
 /* =====================
-   Login Screen
+   Login Screen (nâng cấp)
 ===================== */
 #login {
   display: flex;
   height: 100vh;
+  width: 100%;
 }
 
 .login-left {
   flex: 1;
-  background: url('https://source.unsplash.com/600x800/?couple,love') no-repeat center/cover;
+  background: url('https://source.unsplash.com/800x1000/?romantic,couple') no-repeat center/cover;
+  position: relative;
+}
+.login-left::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.35);
 }
 
 .login-right {
@@ -58,41 +66,53 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: rgba(255,255,255,0.4);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  border-left: 2px solid rgba(255,255,255,0.3);
+}
+
+.login-right h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #ff1493;
+  text-shadow: 0 0 8px rgba(255,20,147,0.6);
 }
 
 #passInput {
-  font-size: 24px;
-  padding: 10px;
+  font-size: 28px;
+  padding: 15px;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   text-align: center;
-  background: rgba(255,255,255,0.7);
-  margin-bottom: 20px;
-  width: 200px;
-  letter-spacing: 5px;
+  background: rgba(255,255,255,0.8);
+  margin-bottom: 25px;
+  width: 220px;
+  letter-spacing: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 #numpad {
   display: grid;
-  grid-template-columns: repeat(3, 60px);
-  gap: 10px;
+  grid-template-columns: repeat(3, 70px);
+  gap: 15px;
+  margin-top: 10px;
 }
+
 #numpad button {
-  font-size: 18px;
-  padding: 15px;
-  border-radius: 10px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  font-size: 20px;
   border: none;
   background: linear-gradient(145deg,#ff69b4,#ff1493);
   color: white;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  transition: all 0.3s ease;
 }
 #numpad button:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  transform: scale(1.15);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
 }
 
 /* =====================
