@@ -350,13 +350,13 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ---- Password gate MD5 ----
-const PW_GATE = document.getElementById('pw-gate');
+//const PW_GATE = document.getElementById('pw-gate');
 const PW_INPUT = document.getElementById('pw-input');
 const PW_SUBMIT = document.getElementById('pw-submit');
-const PW_ERROR = document.getElementById('pw-error');
+//const PW_ERROR = document.getElementById('pw-error');
 
 // Thay chuỗi bên dưới bằng MD5 hash của mật khẩu bạn chọn
-const PASSWORD_HASH_MD5 = "81dc9bdb52d04dc20036dbd8313ed055"; // = MD5("1234")
+//const PASSWORD_HASH_MD5 = "81dc9bdb52d04dc20036dbd8313ed055"; // = MD5("1234")
 
 PW_SUBMIT.addEventListener('click', () => {
   const input = PW_INPUT.value.trim();
