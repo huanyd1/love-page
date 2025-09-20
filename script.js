@@ -1,5 +1,5 @@
 // --- Password ---
-const correctPassword = "love123";
+const correctPassword = "1234";
 function pressKey(num){ document.getElementById('pass').value+=num; }
 function clearPass(){ document.getElementById('pass').value=''; }
 function checkPassword(){
