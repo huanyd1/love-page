@@ -3,43 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Demo Web Kỷ Niệm</title>
-<style>
-  :root {
-    --bg-color: #fff;
-    --text-color: #000;
-    --accent-color: #ff6b81;
-  }
-  body { margin:0; font-family: Arial; background: var(--bg-color); color: var(--text-color); transition:0.3s; }
-  body.dark { --bg-color:#121212; --text-color:#f0f0f0; }
-
-  /* Login 2 nửa */
-  #login { display:flex; height:100vh; }
-  #login .left { flex:1; background:url('https://via.placeholder.com/400x600') no-repeat center/cover; }
-  #login .right { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-  #login input { padding:10px; font-size:18px; margin-bottom:10px; width:60%; }
-  #login button { padding:10px 20px; font-size:18px; cursor:pointer; }
-
-  /* Main content */
-  #mainContent { display:none; padding:20px; max-width:800px; margin:auto; }
-  .section { margin-bottom:30px; }
-  h2 { color: var(--accent-color); }
-
-  /* Album slideshow */
-  #slideshow { width:100%; height:200px; overflow:hidden; position:relative; }
-  #slideshow img { width:100%; height:100%; position:absolute; top:0; left:0; opacity:0; transition:1s; }
-  #slideshow img.active { opacity:1; }
-
-  /* Timeline */
-  .timeline { border-left:2px solid var(--accent-color); padding-left:20px; }
-  .event { margin-bottom:15px; }
-
-  /* Game */
-  #game button { padding:10px 20px; font-size:16px; cursor:pointer; margin-top:10px; }
-
-  /* Dark mode toggle */
-  #darkModeBtn { position:fixed; top:10px; right:10px; padding:10px; cursor:pointer; }
-</style>
+<title>Web Kỷ Niệm Yêu</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -48,8 +13,21 @@
   <div class="left"></div>
   <div class="right">
     <h1>Nhập mật khẩu</h1>
-    <input type="password" id="pass" placeholder="Mật khẩu">
-    <button onclick="checkPassword()">Vào Web</button>
+    <input type="password" id="pass" placeholder="Mật khẩu" readonly>
+    <div id="keypad">
+      <button onclick="pressKey('1')">1</button>
+      <button onclick="pressKey('2')">2</button>
+      <button onclick="pressKey('3')">3</button>
+      <button onclick="pressKey('4')">4</button>
+      <button onclick="pressKey('5')">5</button>
+      <button onclick="pressKey('6')">6</button>
+      <button onclick="pressKey('7')">7</button>
+      <button onclick="pressKey('8')">8</button>
+      <button onclick="pressKey('9')">9</button>
+      <button onclick="clearPass()">C</button>
+      <button onclick="pressKey('0')">0</button>
+      <button onclick="checkPassword()">OK</button>
+    </div>
   </div>
 </div>
 
@@ -58,116 +36,51 @@
 
   <button id="darkModeBtn" onclick="toggleDarkMode()">Dark Mode</button>
 
-  <!-- Đếm ngày yêu -->
-  <div class="section">
+  <section class="section">
     <h2>Đếm ngày yêu</h2>
     <p id="loveDays"></p>
-  </div>
+  </section>
 
-  <!-- Nhắc nhở kỷ niệm -->
-  <div class="section">
+  <section class="section">
     <h2>Nhắc nhở kỷ niệm</h2>
     <p id="nextEvent"></p>
-  </div>
+  </section>
 
-  <!-- Album slideshow -->
-  <div class="section">
+  <section class="section">
     <h2>Album ảnh</h2>
     <div id="slideshow">
-      <img src="https://via.placeholder.com/800x200/ff6b81/fff?text=1" class="active">
-      <img src="https://via.placeholder.com/800x200/6bafff/fff?text=2">
-      <img src="https://via.placeholder.com/800x200/6bff9b/fff?text=3">
+      <button id="prev" onclick="prevSlide()">&#10094;</button>
+      <button id="next" onclick="nextSlide()">&#10095;</button>
+      <div class="slides-container" id="slidesContainer"></div>
     </div>
-  </div>
+  </section>
 
-  <!-- Timeline -->
-  <div class="section">
+  <section class="section">
     <h2>Dòng thời gian kỷ niệm</h2>
     <div class="timeline" id="timeline"></div>
-  </div>
+  </section>
 
-  <!-- Mini game -->
-  <div class="section">
-    <h2>Mini Game: Click Tim ❤️</h2>
-    <p>Điểm: <span id="score">0</span></p>
+  <section class="section">
+    <h2>Mini Game</h2>
     <div id="game">
-      <button onclick="addPoint()">Click Tim</button>
+      <p>Điểm: <span id="score">0</span></p>
+      <button onclick="clickLove()">Click Tim ❤️</button>
+      <p id="gameMsg"></p>
+
+      <h3>Puzzle Kỷ Niệm</h3>
+      <div id="puzzleGame">
+        <p>Kéo thả ảnh theo thứ tự ngày kỷ niệm</p>
+        <div id="puzzleContainer" class="puzzle-container"></div>
+      </div>
     </div>
-  </div>
+  </section>
 
 </div>
 
-<!-- Nhạc nền -->
-<audio autoplay loop>
+<audio id="bgMusic" autoplay loop>
   <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
 </audio>
 
-<script>
-  // Password
-  const correctPassword = "love123";
-  function checkPassword() {
-    if(document.getElementById('pass').value === correctPassword){
-      document.getElementById('login').style.display='none';
-      document.getElementById('mainContent').style.display='block';
-    } else alert('Sai mật khẩu!');
-  }
-
-  // Đếm ngày yêu dạng năm/tháng/ngày
-  const startDate = new Date("2024-01-01");
-  function updateDays() {
-    const now = new Date();
-    let years = now.getFullYear() - startDate.getFullYear();
-    let months = now.getMonth() - startDate.getMonth();
-    let days = now.getDate() - startDate.getDate();
-    if(days < 0){ months--; days += new Date(now.getFullYear(), now.getMonth(),0).getDate();}
-    if(months<0){ years--; months+=12;}
-    document.getElementById('loveDays').innerText=`Đã yêu nhau ${years} năm, ${months} tháng, ${days} ngày`;
-  }
-  updateDays();
-  setInterval(updateDays,1000*60*60);
-
-  // Nhắc nhở kỷ niệm gần nhất
-  const events = [
-    { date:"2025-09-25", name:"Ngày đầu gặp nhau" },
-    { date:"2025-10-20", name:"Sinh nhật người yêu" }
-  ];
-  function nextEvent() {
-    const now = new Date();
-    let next = events[0];
-    events.forEach(e=>{
-      const eDate = new Date(e.date);
-      if(eDate>=now && eDate<new Date(next.date)) next=e;
-    });
-    document.getElementById('nextEvent').innerText = `Sự kiện gần nhất: ${next.date} - ${next.name}`;
-  }
-  nextEvent();
-
-  // Slideshow
-  let slideIndex=0;
-  const slides=document.querySelectorAll('#slideshow img');
-  function showSlide(){
-    slides.forEach(s=>s.classList.remove('active'));
-    slides[slideIndex].classList.add('active');
-    slideIndex=(slideIndex+1)%slides.length;
-  }
-  setInterval(showSlide,3000);
-
-  // Timeline
-  const timelineEl=document.getElementById('timeline');
-  events.forEach((e,i)=>{
-    const div=document.createElement('div');
-    div.classList.add('event');
-    div.innerText=`${i+1}. ${e.date}: ${e.name}`;
-    timelineEl.appendChild(div);
-  });
-
-  // Mini game
-  let score=0;
-  function addPoint(){ score++; document.getElementById('score').innerText=score; }
-
-  // Dark mode
-  function toggleDarkMode(){ document.body.classList.toggle('dark'); }
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
