@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Màn hình đăng nhập</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body, html {
+      height: 100%;
+      width: 100%;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+
+    /* Cột trái */
+    .left {
+      flex: 1;
+      background: url('https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1000') center/cover no-repeat;
+    }
+
+    /* Cột phải */
+    .right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #f8f9fa;
+      padding: 40px;
+    }
+
+    .login-box {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 300px;
+    }
+
+    .login-box h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .password-input {
+      width: 100%;
+      height: 45px;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 20px;
+      letter-spacing: 4px;
+      margin-bottom: 20px;
+      outline: none;
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .key {
+      padding: 15px;
+      font-size: 18px;
+      border: none;
+      background: #007bff;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .key:hover {
+      background: #0056b3;
+    }
+
+    .action-btns {
+      margin-top: 15px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .clear-btn {
+      background: #ffc107;
+    }
+
+    .clear-btn:hover {
+      background: #e0a800;
+    }
+
+    .login-btn {
+      background: #28a745;
+      color: white;
+    }
+
+    .login-btn:hover {
+      background: #218838;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left"></div>
+
+    <div class="right">
+      <div class="login-box">
+        <h2>Nhập mật khẩu</h2>
+        <input type="password" id="password" class="password-input" readonly>
+
+        <div class="keypad">
+          <button class="key" onclick="addNumber(1)">1</button>
+          <button class="key" onclick="addNumber(2)">2</button>
+          <button class="key" onclick="addNumber(3)">3</button>
+          <button class="key" onclick="addNumber(4)">4</button>
+          <button class="key" onclick="addNumber(5)">5</button>
+          <button class="key" onclick="addNumber(6)">6</button>
+          <button class="key" onclick="addNumber(7)">7</button>
+          <button class="key" onclick="addNumber(8)">8</button>
+          <button class="key" onclick="addNumber(9)">9</button>
+          <div></div>
+          <button class="key" onclick="addNumber(0)">0</button>
+          <div></div>
+        </div>
+
+        <div class="action-btns">
+          <button class="action-btn clear-btn" onclick="clearPassword()">Xóa</button>
+          <button class="action-btn login-btn" onclick="login()">Đăng nhập</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function addNumber(num) {
+      const input = document.getElementById("password");
+      input.value += num;
+    }
+
+    function clearPassword() {
+      document.getElementById("password").value = "";
+    }
+
+    function login() {
+      const password = document.getElementById("password").value;
+      if (password === "1234") {
+        alert("Đăng nhập thành công!");
+      } else {
+        alert("Sai mật khẩu!");
+      }
+    }
+  </script>
+</body>
+</html>

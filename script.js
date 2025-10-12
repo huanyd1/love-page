@@ -21,7 +21,7 @@ function updateDays() {
   if(months<0){ years--; months+=12;}
   document.getElementById('loveDays').innerText=`Đã yêu nhau ${years} năm, ${months} tháng, ${days} ngày`;
 }
-updateDays();
+//updateDays();
 setInterval(updateDays,1000*60*60);
 
 // --- Nhắc nhở ---
