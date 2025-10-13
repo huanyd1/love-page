@@ -1,125 +1,166 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đếm ngày yêu</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-    <style>
-        body {
-            background: linear-gradient(135deg, #ff9a9e, #fecfef);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
-        }
-
-        .counter-card {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 40px;
-            border-radius: 25px;
-            text-align: center;
-            box-shadow: 0 12px 25px rgba(0,0,0,0.2);
-            transition: transform 0.3s;
-            position: relative;
-        }
-        .counter-card:hover {
-            transform: scale(1.05);
-        }
-
-        h1 {
-            font-family: 'Pacifico', cursive;
-            color: #ff3c78;
-            margin-bottom: 20px;
-        }
-
-        .days {
-            font-size: 6rem;
-            font-weight: bold;
-            color: #ff6b81;
-            display: inline-block;
-            position: relative;
-        }
-
-        .heart {
-            color: #ff4757;
-            font-size: 3rem;
-            margin-left: 10px;
-            animation: heartbeat 1s infinite;
-        }
-
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            25% { transform: scale(1.2); }
-            50% { transform: scale(1); }
-            75% { transform: scale(1.2); }
-        }
-
-        .petal {
-            position: absolute;
-            width: 15px;
-            height: 15px;
-            background: pink;
-            border-radius: 50%;
-            opacity: 0.8;
-            animation: float 6s linear infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
-            50% { transform: translateY(-200px) rotate(180deg); opacity: 0.4; }
-            100% { transform: translateY(-400px) rotate(360deg); opacity: 0; }
-        }
-
-        #startDateText {
-            margin-top: 15px;
-            font-size: 1.2rem;
-            color: #ff6b81;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jigsaw Puzzle 3x3 - Nâng cao</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  body {
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  #board {
+    width: 300px;
+    height: 300px;
+    border: 2px solid #333;
+    position: relative;
+    background-color: #eee;
+  }
+  .piece {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    cursor: grab;
+    border: 1px solid #fff;
+    box-sizing: border-box;
+    background-image: url('./images/bcd.jpg'); /* Thay bằng link ảnh của bạn */
+    background-size: 300px 300px;
+  }
+</style>
 </head>
 <body>
-    <div class="counter-card">
-        <h1>Ngày yêu của chúng ta</h1>
-        <div class="text-center days" id="daysCount">0</div>
-        <span class="heart">❤️</span>
-        <p id="startDateText"></p>
-    </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Thay đổi ngày bắt đầu yêu theo định dạng YYYY-MM-DD
-        const startDate = new Date("2024-03-01T00:00:00"); 
-        const startDateText = document.getElementById('startDateText');
-        startDateText.textContent = `Bắt đầu từ: ${startDate.toLocaleDateString()}`;
+<div id="board"></div>
 
-        function updateDays() {
-            const now = new Date();
-            const diffTime = now - startDate;
-            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-            document.getElementById('daysCount').textContent = diffDays;
+<script>
+const board = document.getElementById('board');
+const boardSize = 300;
+const grid = 3;
+const pieceSize = boardSize / grid;
+const pieces = [];
+
+// Tạo mảnh và shuffle
+for(let i=0;i<grid;i++){
+  for(let j=0;j<grid;j++){
+    const piece = document.createElement('div');
+    piece.classList.add('piece');
+
+    piece.dataset.correctLeft = j*pieceSize;
+    piece.dataset.correctTop = i*pieceSize;
+    piece.dataset.group = pieces.length; // mỗi mảnh 1 group ban đầu
+
+    piece.style.backgroundPosition = `-${j*pieceSize}px -${i*pieceSize}px`;
+
+    const randLeft = Math.random()*(boardSize-pieceSize);
+    const randTop = Math.random()*(boardSize-pieceSize);
+    piece.style.left = randLeft+'px';
+    piece.style.top = randTop+'px';
+
+    board.appendChild(piece);
+    pieces.push(piece);
+
+    makeDraggable(piece);
+  }
+}
+
+// Kéo thả mảnh + group
+function makeDraggable(el){
+  let offsetX, offsetY;
+  let group = [el]; // group đang kéo
+
+  el.addEventListener('mousedown', (e)=>{
+    // Tìm toàn bộ mảnh cùng group
+    const currentGroupId = el.dataset.group;
+    group = pieces.filter(p => p.dataset.group === currentGroupId);
+
+    group.forEach(p => p.style.zIndex = 1000);
+
+    offsetX = e.clientX - el.offsetLeft;
+    offsetY = e.clientY - el.offsetTop;
+
+    const positionsAtStart = group.map(p => ({left: parseInt(p.style.left), top: parseInt(p.style.top)}));
+
+    function mouseMoveHandler(e){
+      const dx = e.clientX - offsetX - positionsAtStart[0].left;
+      const dy = e.clientY - offsetY - positionsAtStart[0].top;
+      group.forEach((p,i)=>{
+        p.style.left = positionsAtStart[i].left + dx + 'px';
+        p.style.top = positionsAtStart[i].top + dy + 'px';
+      });
+    }
+
+    function mouseUpHandler(){
+      group.forEach(p => p.style.zIndex = '');
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
+
+      // Snap từng mảnh vào đúng vị trí nếu gần
+      group.forEach(p => {
+        const correctLeft = parseInt(p.dataset.correctLeft);
+        const correctTop = parseInt(p.dataset.correctTop);
+        if(Math.abs(p.offsetLeft - correctLeft)<15 && Math.abs(p.offsetTop - correctTop)<15){
+          p.style.left = correctLeft+'px';
+          p.style.top = correctTop+'px';
         }
+      });
 
-        updateDays();
-        setInterval(updateDays, 1000);
+      // Gắn nhóm gần nhau
+      mergeGroups();
 
-        // Tạo hoa bay
-        const counterCard = document.querySelector('.counter-card');
-        function createPetal() {
-            const petal = document.createElement('div');
-            petal.classList.add('petal');
-            petal.style.left = Math.random() * 100 + '%';
-            petal.style.animationDuration = (4 + Math.random() * 4) + 's';
-            counterCard.appendChild(petal);
-            setTimeout(() => petal.remove(), 6000);
-        }
+      checkWin();
+    }
 
-        setInterval(createPetal, 300);
-    </script>
+    document.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
+  });
+}
+
+// Gắn các mảnh gần nhau vào cùng group
+function mergeGroups(){
+  for(let i=0;i<pieces.length;i++){
+    for(let j=i+1;j<pieces.length;j++){
+      const p1 = pieces[i];
+      const p2 = pieces[j];
+
+      // Bỏ qua nếu 1 trong 2 đã snap đúng vị trí
+      const correctLeft1 = parseInt(p1.dataset.correctLeft);
+      const correctTop1 = parseInt(p1.dataset.correctTop);
+      const correctLeft2 = parseInt(p2.dataset.correctLeft);
+      const correctTop2 = parseInt(p2.dataset.correctTop);
+
+      const snapped1 = (parseInt(p1.style.left) === correctLeft1 && parseInt(p1.style.top) === correctTop1);
+      const snapped2 = (parseInt(p2.style.left) === correctLeft2 && parseInt(p2.style.top) === correctTop2);
+
+      if(snapped1 || snapped2) continue; // bỏ qua nếu đã snap
+
+      const dx = Math.abs(parseInt(p1.style.left)-parseInt(p2.style.left));
+      const dy = Math.abs(parseInt(p1.style.top)-parseInt(p2.style.top));
+      if(dx<pieceSize+5 && dy<pieceSize+5){
+        const groupId = Math.min(p1.dataset.group, p2.dataset.group);
+        pieces.forEach(p=>{
+          if(p.dataset.group === p1.dataset.group || p.dataset.group === p2.dataset.group){
+            p.dataset.group = groupId;
+          }
+        });
+      }
+    }
+  }
+}
+
+// Kiểm tra hoàn thành
+function checkWin(){
+  const solved = pieces.every(p => 
+    parseInt(p.style.left) === parseInt(p.dataset.correctLeft) &&
+    parseInt(p.style.top) === parseInt(p.dataset.correctTop)
+  );
+  if(solved) alert('Chúc mừng! Bạn đã ghép xong tranh!');
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

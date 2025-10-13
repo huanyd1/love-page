@@ -36,17 +36,6 @@ AOS.init({ duration: 900, once: true, easing: 'ease-in-out' });
     onScroll();
 })();
 
-// RSVP form
-document.getElementById('rsvpForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const name = document.getElementById('name').value.trim();
-    const people = document.getElementById('people').value;
-    const result = document.getElementById('rsvpResult');
-    result.style.display = 'block';
-    result.className = 'alert alert-success';
-    result.textContent = `${name} — đã xác nhận: ${people}`;
-    this.reset();
-});
 
 // --- Falling Hearts Effect ---
 function createHeart() {
