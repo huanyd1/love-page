@@ -13,11 +13,13 @@ function btnNumber(id) {
       passwordText.value = passwordText.value.slice(0, -1);
     }
   } else if (id === "OK") {
-    if (valuePassword === "000000") {
-      alert("OK");
+    if (valuePassword === "1309") {
+      //alert("OK");
       // nếu muốn reset sau OK:
       // valuePassword = '';
       // passwordText.value = '';
+      localStorage.setItem('loggedIn', 'true'); // Lưu trạng thái đăng nhập
+      window.location.href = 'index.html';
     } else {
       alert("Sai mật khẩu rồi 😳");
       valuePassword = "";

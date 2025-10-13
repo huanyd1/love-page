@@ -1,6 +1,12 @@
 // Init AOS
 AOS.init({ duration: 900, once: true, easing: 'ease-in-out' });
 
+function checkLogin(){
+     if (!localStorage.getItem('loggedIn')) {
+      window.location.href = 'login.html'; // Chuyển sang trang login nếu chưa đăng nhập
+    }
+}
+checkLogin();
 // Parallax + Blur logic
 (function () {
     const heroBg = document.getElementById('heroBg');
