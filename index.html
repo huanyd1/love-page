@@ -1,63 +1,184 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Kỷ niệm tình yêu 💕</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Noble VIP - Wedding</title>
+
+  <!-- Bootstrap + AOS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="style.css" rel="stylesheet">
 </head>
 <body>
-  <!-- Màn hình đăng nhập -->
-  
-<!-- 
-  <div id="login">
-  <div class="login-left"></div>
-  <div class="login-right">
-    <h2>Nhập mật khẩu 💖</h2>
-    <input type="password" id="passInput" readonly>
-    <div id="numpad"></div>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top" data-aos="fade-down">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#">Noble VIP</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="#story">Câu chuyện</a></li>
+        <li class="nav-item"><a class="nav-link" href="#events">Sự kiện</a></li>
+        <li class="nav-item"><a class="nav-link" href="#gallery">Album</a></li>
+        <li class="nav-item"><a class="btn btn-outline-primary ms-2" href="#rsvp">Xác nhận</a></li>
+      </ul>
+    </div>
   </div>
-</div> -->
- <!--Nội dung chính -->
-  <div id="main" style="display:none;">
-    <section id="counter" class="glass-box">
-      <h2>Đếm ngày yêu 💞</h2>
-      <p><span id="daysTogether"></span></p>
-    </section>
+</nav>
 
-    <section id="reminder" class="glass-box">
-      <h2>Nhắc nhở kỷ niệm 📅</h2>
-      <p id="nextEvent"></p>
-    </section>
-
-    <section id="album" class="glass-box">
-      <h2>Album ảnh 📸</h2>
-      <div id="slidesContainer"></div>
-      <button onclick="prevSlide()">⏪</button>
-      <button onclick="nextSlide()">⏩</button>
-    </section>
-
-    <section id="timeline" class="glass-box">
-      <h2>Dòng thời gian kỷ niệm 🕒</h2>
-      <div id="timeline"></div>
-    </section>
-
-    <section id="game" class="glass-box">
-      <h2>Mini Game 🎮</h2>
-      <button onclick="clickLove()">Click tim ❤️</button>
-      <p>Điểm: <span id="score">0</span></p>
-      <p id="gameMsg"></p>
-      <div id="puzzleContainer"></div>
-    </section>
-
-    <section class="glass-box">
-      <button onclick="toggleDarkMode()">🌙 Bật/Tắt Dark Mode</button>
-    </section>
-
-    <audio id="bgMusic" autoplay loop>
-      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    </audio>
+<!-- HERO -->
+<header class="hero parallax-section" id="hero">
+  <div class="parallax-bg" id="heroBg" style="background-image:url('./images/bcd.jpg')"></div>
+  <div class="container section-overlay">
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="overlay-panel" data-aos="fade-up">
+          <h1 class="display-4 fw-bold">Văn Huân & Mỹ Duyên</h1>
+          <p class="lead">24 September 2022</p>
+          <p class="text-white-50">Gặp nhiều người ở thời điểm khác nhau cũng không huy hoàng bằng gặp đúng người đúng thời điểm.</p>
+          <div class="mt-3">
+            <!-- <a href="#rsvp" class="btn btn-primary me-2">Xác nhận tham dự</a> -->
+            <a href="#gallery" class="btn btn-outline-light">Xem album</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+</header>
 
-  <script src="script.js"></script>
+<!-- LOVE STORY -->
+<section id="story" class="parallax-section">
+  <div class="parallax-bg" id="storyBg" style="background-image:url('story-bg.jpg')"></div>
+  <div class="container section-overlay">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <h3 class="fw-bold text-uppercase text-dark">Our Love Story</h3>
+      <p class="text-muted">Một hành trình đầy yêu thương và kỷ niệm đáng nhớ</p>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="timeline-step" data-aos="fade-right">
+          <div class="timeline-icon"></div>
+          <h5 class="fw-semibold text-dark">2022 — Lần đầu gặp gỡ</h5>
+          <p class="text-muted">Câu chuyện bắt đầu từ một cuộc gặp gỡ tình cờ trong công việc, ánh nhìn đầu tiên đã làm tim loạn nhịp...</p>
+        </div>
+        <div class="timeline-step" data-aos="fade-right" data-aos-delay="150">
+          <div class="timeline-icon"></div>
+          <h5 class="fw-semibold text-dark">2022 — Tình yêu đơm hoa</h5>
+          <p class="text-muted">Sau nhiều kỷ niệm, những buổi hẹn hò, chúng tôi chính thức gọi nhau là người yêu.</p>
+        </div>
+        <div class="timeline-step" data-aos="fade-right" data-aos-delay="300">
+          <div class="timeline-icon"></div>
+          <h5 class="fw-semibold text-dark">2023 — Lời cầu hôn</h5>
+          <p class="text-muted">Khoảnh khắc tuyệt vời khi anh quỳ xuống, cùng lời hứa bên nhau mãi mãi...</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row align-items-center justify-content-center mt-5">
+      <div class="col-md-4" data-aos="zoom-in">
+        <div class="bride-groom-card">
+          <img src="./images/duyen-rua.jpg" alt="Cô dâu">
+          <h5 class="fw-bold">Duyên Rùa &#x1F422;</h5>
+          <p class="text-muted">Dịu dàng, tinh tế, và luôn mỉm cười.</p>
+        </div>
+      </div>
+
+      <div class="col-md-1 heart-divider" data-aos="zoom-in" data-aos-delay="200">💞</div>
+
+      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
+        <div class="bride-groom-card">
+          <img src="./images/huan.jpg" alt="Chú rể">
+          <h5 class="fw-bold">Huân Khủng Long &#x1F996;</h5>
+          <p class="text-muted">Chân thành, hài hước và đầy ấm áp.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS + RSVP -->
+<section id="events" class="py-5">
+  <div class="container" data-aos="fade-up">
+    <div class="row g-4">
+      <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+        <div class="card p-4 shadow-sm">
+          <h5>Lễ cưới nhà Trai</h5>
+          <p>11:30 Chủ Nhật, 24-03-2024<br>Tại: Tư gia nhà Trai</p>
+          <a target="_blank" href="https://maps.google.com" class="btn btn-sm btn-outline-primary">Xem bản đồ</a>
+        </div>
+      </div>
+      <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
+        <div class="card p-4 shadow-sm">
+          <h5>Lễ cưới nhà Gái</h5>
+          <p>09:30 Thứ 7, 23-03-2024<br>Tại: Tư gia nhà Gái</p>
+          <a target="_blank" href="https://maps.google.com" class="btn btn-sm btn-outline-primary">Xem bản đồ</a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-4">
+
+    <div id="rsvp" class="row" data-aos="fade-up" data-aos-delay="300">
+      <div class="col-lg-6">
+        <h4>Xác nhận tham dự</h4>
+        <form id="rsvpForm" class="row g-3 mt-2">
+          <div class="col-12"><input type="text" id="name" class="form-control" placeholder="Họ & tên" required></div>
+          <div class="col-6"><input type="tel" id="phone" class="form-control" placeholder="Số điện thoại"></div>
+          <div class="col-6">
+            <select id="people" class="form-select">
+              <option>1 Người</option>
+              <option>2 Người</option>
+              <option>3 Người</option>
+              <option>4 Người</option>
+            </select>
+          </div>
+          <div class="col-12 d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Gửi</button>
+            <button type="reset" class="btn btn-outline-secondary">Nhập lại</button>
+          </div>
+        </form>
+        <div id="rsvpResult" class="mt-3" style="display:none"></div>
+      </div>
+      <div class="col-lg-6" data-aos="fade-left" data-aos-delay="400">
+        <h5>Hộp mừng cưới</h5>
+        <p>Bạn có thể gửi phong bao hoặc chuyển khoản qua QR / STK.</p>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-success">Tải QR</button>
+          <button class="btn btn-outline-secondary">Copy STK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" class="py-5 bg-light">
+  <div class="container" data-aos="fade-up">
+    <h4>Album Ảnh</h4>
+    <div class="row g-3 mt-3">
+      <div class="col-md-4" data-aos="zoom-in"><img src="gallery1.jpg" class="img-fluid rounded" alt=""></div>
+      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="150"><img src="gallery2.jpg" class="img-fluid rounded" alt=""></div>
+      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300"><img src="gallery3.jpg" class="img-fluid rounded" alt=""></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-4 bg-dark text-white" data-aos="fade-up">
+  <div class="container text-center">
+    <p class="mb-0">&copy; 2024 Xuân Thịnh & Diễm Hằng — Thank you!</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="/index.js"></script>
 </body>
 </html>

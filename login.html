@@ -1,175 +1,68 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Màn hình đăng nhập</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: "Poppins", sans-serif;
-    }
-
-    body, html {
-      height: 100%;
-      width: 100%;
-    }
-
-    .container {
-      display: flex;
-      height: 100vh;
-    }
-
-    /* Cột trái */
-    .left {
-      flex: 1;
-      background: url('https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1000') center/cover no-repeat;
-    }
-
-    /* Cột phải */
-    .right {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: #f8f9fa;
-      padding: 40px;
-    }
-
-    .login-box {
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      text-align: center;
-      width: 300px;
-    }
-
-    .login-box h2 {
-      margin-bottom: 20px;
-      color: #333;
-    }
-
-    .password-input {
-      width: 100%;
-      height: 45px;
-      border: 2px solid #ddd;
-      border-radius: 10px;
-      text-align: center;
-      font-size: 20px;
-      letter-spacing: 4px;
-      margin-bottom: 20px;
-      outline: none;
-    }
-
-    .keypad {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-
-    .key {
-      padding: 15px;
-      font-size: 18px;
-      border: none;
-      background: #007bff;
-      color: white;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .key:hover {
-      background: #0056b3;
-    }
-
-    .action-btns {
-      margin-top: 15px;
-      display: flex;
-      gap: 10px;
-    }
-
-    .action-btn {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .clear-btn {
-      background: #ffc107;
-    }
-
-    .clear-btn:hover {
-      background: #e0a800;
-    }
-
-    .login-btn {
-      background: #28a745;
-      color: white;
-    }
-
-    .login-btn:hover {
-      background: #218838;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Màn hình nhập mật khẩu</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-  <div class="container">
-    <div class="left"></div>
 
-    <div class="right">
-      <div class="login-box">
-        <h2>Nhập mật khẩu</h2>
-        <input type="password" id="password" class="password-input" readonly>
+<body class="bg-light d-flex align-items-center min-vh-100 h-100">
 
-        <div class="keypad">
-          <button class="key" onclick="addNumber(1)">1</button>
-          <button class="key" onclick="addNumber(2)">2</button>
-          <button class="key" onclick="addNumber(3)">3</button>
-          <button class="key" onclick="addNumber(4)">4</button>
-          <button class="key" onclick="addNumber(5)">5</button>
-          <button class="key" onclick="addNumber(6)">6</button>
-          <button class="key" onclick="addNumber(7)">7</button>
-          <button class="key" onclick="addNumber(8)">8</button>
-          <button class="key" onclick="addNumber(9)">9</button>
-          <div></div>
-          <button class="key" onclick="addNumber(0)">0</button>
-          <div></div>
+  <div class="container-sm">
+    <div class="row g-0 shadow-lg rounded overflow-hidden min-vh-75">
+
+      <!-- Cột ảnh -->
+      <div class="col-12 col-md-6 d-flex align-items-center justify-content-center bg-dark p-3">
+        <img src="./images/0a752d43-56ea-47e2-96c5-850849b4e9bf.jpg" class="img-fluid w-75 rounded" alt="Ảnh minh họa">
+      </div>
+
+      <!-- Cột nhập mật khẩu -->
+      <div class="col-12 col-md-6 bg-white p-4 d-flex flex-column align-items-center justify-content-center">
+        <h5 class="mb-3 text-center">Nhập mật khẩu</h5>
+        <div class="input-group" style="width: 60%;">
+          <input type="text" readonly class="form-control text-center mb-3" maxlength="6" id="passwordText" placeholder="" aria-describedby="">
+          <div class="input-group-prepend">
+            <div class="input-group-text btn btn-outline-info" data-bs-toggle="tooltip" data-bs-trigger="click" disable id="btnGroupAddon" data-toggle="tooltip" data-placement="top" title="Ngày mình yêu nhau">?</div>
+          </div>
+
         </div>
-
-        <div class="action-btns">
-          <button class="action-btn clear-btn" onclick="clearPassword()">Xóa</button>
-          <button class="action-btn login-btn" onclick="login()">Đăng nhập</button>
+        <div class="container px-0">
+          <div class="row row-cols-3 g-2">
+            <div class="col"><button class="btn btn-outline-primary w-100 py-2" id="1"
+                onclick="btnNumber(this.id)">1</button></div>
+            <div class="col"><button class="btn btn-outline-primary w-100 py-2" id="2"
+                onclick="btnNumber(this.id)">2</button></div>
+            <div class="col"><button class="btn btn-outline-primary w-100 py-2" id="3"
+                onclick="btnNumber(this.id)">3</button></div>
+            <div class="col"><button class="btn btn-outline-primary w-100 py-2" id="4"
+                onclick="btnNumber(this.id)">4</button></div>
+            <div class="col"><button class="btn btn-outline-primary w-100 py-2" id="5"
+                onclick="btnNumber(this.id)">5</button></div>
+            <div class="col"><button class="btn btn-outline-primary w-100 py-2" id="6"
+                onclick="btnNumber(this.id)">6</button></div>
+            <div class="col"><button class="btn btn-outline-primary w-100 py-2" id="7"
+                onclick="btnNumber(this.id)">7</button></div>
+            <div class="col"><button class="btn btn-outline-primary w-100 py-2" id="8"
+                onclick="btnNumber(this.id)">8</button></div>
+            <div class="col"><button class="btn btn-outline-primary w-100 py-2" id="9"
+                onclick="btnNumber(this.id)">9</button></div>
+            <div class="col"><button class="btn btn-outline-danger w-100 py-2" id="Xóa"
+                onclick="btnNumber(this.id)">Xóa</button></div>
+            <div class="col"><button class="btn btn-outline-primary w-100 py-2" id="0"
+                onclick="btnNumber(this.id)">0</button></div>
+            <div class="col"><button class="btn btn-success w-100 py-2" id="OK" onclick="btnNumber(this.id)">OK</button>
+            </div>
+          </div>
         </div>
       </div>
+
     </div>
   </div>
+  <script src="./login.js" defer></script>
 
-  <script>
-    function addNumber(num) {
-      const input = document.getElementById("password");
-      input.value += num;
-    }
-
-    function clearPassword() {
-      document.getElementById("password").value = "";
-    }
-
-    function login() {
-      const password = document.getElementById("password").value;
-      if (password === "1234") {
-        alert("Đăng nhập thành công!");
-      } else {
-        alert("Sai mật khẩu!");
-      }
-    }
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 </body>
+
 </html>
