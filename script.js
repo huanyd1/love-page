@@ -160,3 +160,4 @@ function btnNumber(id) {
   }
   console.log("valuePassword =", valuePassword, "masked length =", passwordText.value.length);
 }
+
