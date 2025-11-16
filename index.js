@@ -75,6 +75,18 @@ function updateDays() {
     document.getElementById('daysCount').textContent = diffDays + "❤️";
 }
 
+function convertDaysToString(totalDays) {
+  const years = Math.floor(totalDays / 365);
+  const months = Math.floor((totalDays % 365) / 30);
+  const days = (totalDays % 365) % 30;
+
+  document.getElementById('daysCountTotal').textContent = `${years} năm ${months} tháng ${days} ngày`;
+}
+
+console.log(convertDaysToString(800)); 
+// -> "2 năm 2 tháng 10 ngày"
+
+
 // Cập nhật ngay lập tức và mỗi 1 giây
 updateDays();
 setInterval(updateDays, 1000);
