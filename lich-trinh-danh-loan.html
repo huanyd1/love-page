@@ -427,11 +427,16 @@
   .footer strong { color: var(--gold); }
 
   @media (max-width: 640px) {
+    .baggage-wrap { padding: 20px 16px 24px !important; }
     .header-body { padding: 24px 20px; }
     .notice-bar  { padding: 10px 20px; }
     .content     { padding: 24px 16px 48px; }
     .general-notes-body { grid-template-columns: 1fr; }
     .footer      { padding: 16px 20px; flex-direction: column; text-align: center; }
+  }
+  @media (max-width: 768px) {
+    .bag3col { grid-template-columns: 1fr !important; }
+    .bag2col { grid-template-columns: 1fr !important; }
   }
 </style>
 </head>
@@ -462,6 +467,98 @@
   <span>✈️ <b>Về:</b> CI 793 · TPE→HAN · 14:35 – 16:50</span>
   <span>🏨 <b>Khách sạn 4★:</b> Đài Trung (1 đêm) + Đài Bắc (3 đêm)</span>
   <span>📋 <b>Gala Dinner:</b> Tối Ngày 4 (12/07)</span>
+</div>
+
+<!-- BAGGAGE & FLIGHT INFO -->
+<div style="background:#1A1A2E; padding: 28px 48px 32px;">
+  <div style="max-width:960px; margin:0 auto;">
+
+    <div style="font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#C8922A; margin-bottom:16px;">✈ THÔNG TIN HÀNH LÝ & LƯU Ý KHI BAY</div>
+
+    <!-- 3 column grid -->
+    <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:16px; margin-bottom:16px;" class="bag3col">
+
+      <!-- Hành lý ký gửi -->
+      <div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:16px;">
+        <div style="font-size:22px; margin-bottom:6px;">🧳</div>
+        <div style="font-size:12px; font-weight:700; color:#C8922A; letter-spacing:1px; text-transform:uppercase; margin-bottom:10px;">Hành lý ký gửi</div>
+        <div style="font-size:12.5px; color:rgba(255,255,255,0.85); line-height:1.7;">
+          <div style="margin-bottom:6px;">📦 <b style="color:#fff;">Economy (Standard/Basic):</b> 1 kiện · tối đa <b style="color:#FFD888;">23kg</b></div>
+          <div style="margin-bottom:6px;">📐 Kích thước: tổng 3 chiều ≤ <b style="color:#FFD888;">158cm</b></div>
+          <div style="margin-bottom:6px;">⚖ Vượt 23–32kg: tính phí 0.5 kiện dư</div>
+          <div>🚫 Trên 32kg/kiện: <b style="color:#FF8A80;">không được nhận</b></div>
+        </div>
+        <div style="margin-top:10px; background:rgba(200,146,42,0.15); border-radius:6px; padding:8px 10px; font-size:11.5px; color:#FFD888;">
+          💡 Mua sắm nhiều → cân vali trước khi về. Mang cân hành lý mini theo!
+        </div>
+      </div>
+
+      <!-- Hành lý xách tay -->
+      <div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:16px;">
+        <div style="font-size:22px; margin-bottom:6px;">🎒</div>
+        <div style="font-size:12px; font-weight:700; color:#C8922A; letter-spacing:1px; text-transform:uppercase; margin-bottom:10px;">Hành lý xách tay</div>
+        <div style="font-size:12.5px; color:rgba(255,255,255,0.85); line-height:1.7;">
+          <div style="margin-bottom:6px;">👜 1 túi xách tay chính: ≤ <b style="color:#FFD888;">7kg</b></div>
+          <div style="margin-bottom:6px;">📐 Kích thước: ≤ <b style="color:#FFD888;">56×36×23cm</b></div>
+          <div style="margin-bottom:6px;">💼 1 đồ dùng cá nhân thêm (laptop bag): ≤ 40×30×15cm</div>
+          <div style="margin-bottom:6px;">💧 Chất lỏng: mỗi chai ≤ <b style="color:#FFD888;">100ml</b>, bỏ túi zip trong suốt 1 lít</div>
+          <div>🧴 Gôm xịt tóc ≤100ml: ✅ xách tay được</div>
+        </div>
+      </div>
+
+      <!-- Vật phẩm đặc biệt -->
+      <div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:16px;">
+        <div style="font-size:22px; margin-bottom:6px;">⚠️</div>
+        <div style="font-size:12px; font-weight:700; color:#C8922A; letter-spacing:1px; text-transform:uppercase; margin-bottom:10px;">Quy định đặc biệt</div>
+        <div style="font-size:12.5px; line-height:1.8;">
+          <div style="margin-bottom:3px;"><span style="color:#69F0AE;">✅ Xách tay bắt buộc:</span> <span style="color:rgba(255,255,255,0.85);">Pin dự phòng, pin lithium rời</span></div>
+          <div style="margin-bottom:3px;"><span style="color:#69F0AE;">✅ Xách tay được:</span> <span style="color:rgba(255,255,255,0.85);">Bật lửa (1 cái, mang theo người)</span></div>
+          <div style="margin-bottom:3px;"><span style="color:#FF8A80;">❌ Cấm xách tay:</span> <span style="color:rgba(255,255,255,0.85);">Dao, kéo nhọn, chất lỏng &gt;100ml</span></div>
+          <div style="margin-bottom:3px;"><span style="color:#FF8A80;">❌ Cấm ký gửi:</span> <span style="color:rgba(255,255,255,0.85);">Pin lithium rời, bật lửa gas</span></div>
+          <div style="margin-bottom:3px;"><span style="color:#FFD740;">⚠ Aerosol (xịt tóc):</span> <span style="color:rgba(255,255,255,0.85);">mỗi bình ≤500ml, tổng ≤2 lít, còn nguyên nắp</span></div>
+          <div><span style="color:#FF8A80;">❌ Không để trong ký gửi:</span> <span style="color:rgba(255,255,255,0.85);">Tiền, passport, laptop, thuốc quan trọng</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2: 2 columns -->
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+
+      <!-- Lưu ý khi bay -->
+      <div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:16px;">
+        <div style="font-size:22px; margin-bottom:6px;">🛫</div>
+        <div style="font-size:12px; font-weight:700; color:#C8922A; letter-spacing:1px; text-transform:uppercase; margin-bottom:10px;">Lưu ý khi bay</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:12px; color:rgba(255,255,255,0.85); line-height:1.6;">
+          <div>🕖 <b style="color:#fff;">Nhóm HN tập trung:</b><br>07:30 tại điểm hẹn TT Hà Nội</div>
+          <div>🛂 <b style="color:#fff;">Hộ chiếu:</b><br>Còn hạn &gt;6 tháng từ 13/07/2026</div>
+          <div>⏰ <b style="color:#fff;">Check-in sân bay:</b><br>Có mặt trước giờ bay ít nhất 2–3 tiếng</div>
+          <div>💉 <b style="color:#fff;">Thẩm mỹ mặt:</b><br>Nâng mũi, cắt mí → phải đổi hộ chiếu mới</div>
+          <div>🤰 <b style="color:#fff;">Thai sản:</b><br>Không nhận khách có thai từ 5 tháng</div>
+          <div>💰 <b style="color:#fff;">Nghĩa vụ thuế:</b><br>Hoàn thành trước khi xuất cảnh (kiểm tra app Etax Mobile)</div>
+        </div>
+      </div>
+
+      <!-- Hành lý xách tay nên mang gì -->
+      <div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:16px;">
+        <div style="font-size:22px; margin-bottom:6px;">📋</div>
+        <div style="font-size:12px; font-weight:700; color:#C8922A; letter-spacing:1px; text-transform:uppercase; margin-bottom:10px;">Nên để đâu?</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; font-size:12px; line-height:1.6;">
+          <div style="background:rgba(105,240,174,0.1); border-radius:6px; padding:8px 10px;">
+            <div style="color:#69F0AE; font-weight:700; margin-bottom:4px;">🎒 Xách tay</div>
+            <div style="color:rgba(255,255,255,0.8);">Passport · Tiền · Thẻ ngân hàng · Thuốc · Điện thoại · Laptop · Máy ảnh · Pin dự phòng · Đồ thay 1 ngày</div>
+          </div>
+          <div style="background:rgba(255,138,128,0.1); border-radius:6px; padding:8px 10px;">
+            <div style="color:#FF8A80; font-weight:700; margin-bottom:4px;">🧳 Ký gửi</div>
+            <div style="color:rgba(255,255,255,0.8);">Quần áo · Giày dép · Mỹ phẩm &gt;100ml · Xịt tóc &gt;100ml · Đồ mua sắm · Kéo · Dao cạo</div>
+          </div>
+        </div>
+        <div style="margin-top:10px; background:rgba(200,146,42,0.15); border-radius:6px; padding:8px 10px; font-size:11.5px; color:#FFD888;">
+          💡 Chiều về từ Đài Loan: giữ lại hóa đơn mua sắm để làm thủ tục <b>hoàn thuế VAT</b> tại sân bay Đào Viên trước khi qua cửa an ninh.
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 <div class="content">
@@ -1121,6 +1218,109 @@
     </div>
   </div>
 
+</div>
+
+<!-- EVENING FREE TIME -->
+<div class="content" style="padding-top:0;">
+  <div class="general-notes" style="margin-top:0;">
+    <div class="general-notes-title" style="background: #1a6b3a;">🌙 &nbsp;GỢI Ý BUỔI TỐI TỰ DO</div>
+    <div style="padding: 16px 20px 8px; background:#F0F7F2; border-bottom: 1px solid #C8E6C9;">
+      <p style="font-size:12.5px; color:#2E7D32; font-weight:600;">Lịch tour có 2 buổi tối tự do: Tối N2 (10/07) và Tối N3 (11/07). Các buổi còn lại đã có lịch cố định.</p>
+    </div>
+
+    <!-- Tối N1 -->
+    <div style="padding: 14px 20px; border-bottom: 1px solid #EEE; background:#FAFAFA;">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+        <span style="background:#546E7A; color:#fff; font-size:11px; font-weight:700; padding:3px 10px; border-radius:10px;">Tối N1 · 09/07</span>
+        <span style="background:#C8E6C9; color:#1B5E20; font-size:11px; font-weight:600; padding:3px 10px; border-radius:10px;">✅ Đã có lịch</span>
+      </div>
+      <div style="font-size:13px; color:#555;">Chợ đêm Phùng Giáp (19:30–21:00) – đã nằm trong chương trình tour.</div>
+    </div>
+
+    <!-- Tối N2 -->
+    <div style="padding: 14px 20px; border-bottom: 1px solid #EEE;">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px; flex-wrap:wrap;">
+        <span style="background:#1a6b3a; color:#fff; font-size:11px; font-weight:700; padding:3px 10px; border-radius:10px;">Tối N2 · 10/07 · Đài Bắc</span>
+        <span style="background:#FFF3DC; color:#8A5C00; font-size:11px; font-weight:600; padding:3px 10px; border-radius:10px;">🕙 Về ~21:00 – Ít thời gian</span>
+      </div>
+      <div style="font-size:14px; font-weight:600; color:#1a6b3a; margin-bottom:4px;">🏮 Chợ đêm Raohe (饒河夜市)</div>
+      <div style="font-size:13px; color:#444; line-height:1.6; margin-bottom:8px;">Chợ đêm nổi tiếng nhất Đài Bắc, mở đến 23:00–24:00. Nổi bật: bánh hồ tiêu (胡椒餅), ốc hương nướng, chè đậu đỏ.</div>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; font-size:12px;">
+        <span style="background:#E3F2FD; color:#1565C0; padding:3px 9px; border-radius:8px; font-weight:500;">🚇 MRT Songshan Line → ga Songshan ~10 phút</span>
+        <span style="background:#FFF3E0; color:#E65100; padding:3px 9px; border-radius:8px; font-weight:500;">💰 200–400 TWD/người (~160–320k VNĐ)</span>
+        <span style="background:#FCE4EC; color:#880E4F; padding:3px 9px; border-radius:8px; font-weight:500;">⚠ Về trước 23:30 – ngày mai dậy sớm 07:00</span>
+      </div>
+    </div>
+
+    <!-- Tối N3 -->
+    <div style="padding: 14px 20px; border-bottom: 1px solid #EEE;">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px; flex-wrap:wrap;">
+        <span style="background:#1a6b3a; color:#fff; font-size:11px; font-weight:700; padding:3px 10px; border-radius:10px;">Tối N3 · 11/07 · Đài Bắc</span>
+        <span style="background:#E8F5E9; color:#1B5E20; font-size:11px; font-weight:600; padding:3px 10px; border-radius:10px;">⭐ Thoải mái nhất – Về từ 19:30</span>
+      </div>
+
+      <!-- Ximending -->
+      <div style="font-size:14px; font-weight:600; color:#1a6b3a; margin-bottom:4px;">🛍 Chợ đêm Ximending (西門町) – Gợi ý chính</div>
+      <div style="font-size:13px; color:#444; line-height:1.6; margin-bottom:8px;">Thiên đường mua sắm sầm uất nhất Đài Bắc, mở đến 00:00–01:00. Quần áo, giày, mỹ phẩm Hàn/Đài, snack đường phố đủ loại.</div>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; font-size:12px; margin-bottom:12px;">
+        <span style="background:#E3F2FD; color:#1565C0; padding:3px 9px; border-radius:8px; font-weight:500;">🚇 MRT đến ga Ximen hoặc đi bộ từ khách sạn</span>
+        <span style="background:#FFF3E0; color:#E65100; padding:3px 9px; border-radius:8px; font-weight:500;">💰 500–1.500 TWD (~400k–1.2tr VNĐ)</span>
+        <span style="background:#FCE4EC; color:#880E4F; padding:3px 9px; border-radius:8px; font-weight:500;">⚠ Giữ chặt túi xách – khu đông người</span>
+      </div>
+
+      <!-- Din Tai Fung -->
+      <div style="font-size:14px; font-weight:600; color:#1a6b3a; margin-bottom:4px;">🥟 Phố Vĩnh Khang (永康街) – Nếu muốn yên tĩnh hơn</div>
+      <div style="font-size:13px; color:#444; line-height:1.6; margin-bottom:8px;">Phố cafe, trà sữa, nhà hàng nhỏ xinh. Nổi tiếng với <b>Din Tai Fung</b> – xiaolongbao chính gốc Đài Loan.</div>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; font-size:12px;">
+        <span style="background:#E3F2FD; color:#1565C0; padding:3px 9px; border-radius:8px; font-weight:500;">🚇 MRT Đông Môn ~5 phút</span>
+        <span style="background:#FFF3E0; color:#E65100; padding:3px 9px; border-radius:8px; font-weight:500;">💰 400–600 TWD/người tại Din Tai Fung</span>
+        <span style="background:#FCE4EC; color:#880E4F; padding:3px 9px; border-radius:8px; font-weight:500;">⚠ Xếp hàng 30–60 phút – đến trước 19:00 nếu muốn thử</span>
+      </div>
+    </div>
+
+    <!-- Tối N4 & N5 -->
+    <div style="padding: 14px 20px; border-bottom: 1px solid #EEE; background:#FAFAFA;">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px; flex-wrap:wrap;">
+        <span style="background:#546E7A; color:#fff; font-size:11px; font-weight:700; padding:3px 10px; border-radius:10px;">Tối N4 · 12/07</span>
+        <span style="background:#C8E6C9; color:#1B5E20; font-size:11px; font-weight:600; padding:3px 10px; border-radius:10px;">✅ Đã có lịch</span>
+      </div>
+      <div style="font-size:13px; color:#555;">Gala Dinner (18:30–21:30) – đã nằm trong chương trình tour.</div>
+    </div>
+    <div style="padding: 14px 20px; border-bottom: 1px solid #EEE; background:#FAFAFA;">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px; flex-wrap:wrap;">
+        <span style="background:#546E7A; color:#fff; font-size:11px; font-weight:700; padding:3px 10px; border-radius:10px;">Tối N5 · 13/07</span>
+        <span style="background:#ECEFF1; color:#546E7A; font-size:11px; font-weight:600; padding:3px 10px; border-radius:10px;">✈ Bay về – Không có buổi tối</span>
+      </div>
+      <div style="font-size:13px; color:#555;">Hạ cánh Nội Bài 16:50, kết thúc hành trình.</div>
+    </div>
+
+    <!-- Lưu ý chung -->
+    <div style="padding: 16px 20px;">
+      <div style="font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#1a6b3a; margin-bottom:12px;">📌 Lưu ý chung khi ra ngoài tự do</div>
+      <div class="general-notes-body" style="margin:0;">
+        <div class="note-card">
+          <div class="note-card-icon">🚇</div>
+          <div class="note-card-title">Đi lại</div>
+          <div class="note-card-body">Mua <b>EasyCard (悠遊卡)</b> tại sân bay hoặc 7-Eleven ngay ngày đầu. Dùng cho MRT, xe buýt, cửa hàng tiện lợi. Nạp <b>500 TWD</b> là đủ cả tour. Taxi/Uber đắt hơn MRT ~3–5 lần.</div>
+        </div>
+        <div class="note-card">
+          <div class="note-card-icon">💴</div>
+          <div class="note-card-title">Tiền mặt</div>
+          <div class="note-card-body">Tỷ giá ~800–820 VNĐ/TWD. Chợ đêm thường <b>chỉ nhận tiền mặt</b>. Nên đổi TWD trước ở Việt Nam hoặc tại sân bay Đào Viên. Rút ATM tại Đài Loan phí ~1–2 USD/lần.</div>
+        </div>
+        <div class="note-card">
+          <div class="note-card-icon">🛡</div>
+          <div class="note-card-title">An toàn</div>
+          <div class="note-card-body">Đài Loan rất an toàn, tỷ lệ tội phạm thấp. Chú ý <b>xe máy khi qua đường</b> – họ không nhường người đi bộ. Lưu số HDV địa phương để liên lạc nếu cần.</div>
+        </div>
+        <div class="note-card">
+          <div class="note-card-icon">📱</div>
+          <div class="note-card-title">Ứng dụng hữu ích</div>
+          <div class="note-card-body"><b>Google Maps</b> – chỉ đường MRT rất chính xác. <b>Google Translate</b> – chụp ảnh menu dịch tiếng Hoa. <b>Uber/Line Taxi</b> – gọi xe khi cần. Nên mua SIM data hoặc pocket WiFi tại sân bay.</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- FOOTER -->
