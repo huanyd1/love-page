@@ -4,6 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Đài Loan 09–13/07/2026 · Đoàn HN Đợt 3</title>
+
+<!-- iOS PWA / Add to Home Screen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Đài Loan Đợt 3">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#2C3A55">
+
+<!-- Apple Touch Icon (inline SVG → data URI, no external file needed) -->
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%232C3A55'/%3E%3Crect x='0' y='168' width='180' height='12' rx='0' fill='%23C8922A'/%3E%3Ctext x='90' y='100' font-size='90' text-anchor='middle' dominant-baseline='middle'%3E🇹🇼%3C/text%3E%3Ctext x='90' y='155' font-size='18' font-weight='700' text-anchor='middle' fill='%23FFD888' font-family='sans-serif'%3E09-13/07%3C/text%3E%3C/svg%3E">
+<!-- Fallback icon sizes -->
+<link rel="apple-touch-icon" sizes="152x152" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 152 152'%3E%3Crect width='152' height='152' rx='34' fill='%232C3A55'/%3E%3Ctext x='76' y='82' font-size='76' text-anchor='middle' dominant-baseline='middle'%3E🇹🇼%3C/text%3E%3Ctext x='76' y='132' font-size='15' font-weight='700' text-anchor='middle' fill='%23FFD888' font-family='sans-serif'%3E09-13/07%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" sizes="167x167" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 167 167'%3E%3Crect width='167' height='167' rx='37' fill='%232C3A55'/%3E%3Ctext x='83' y='90' font-size='84' text-anchor='middle' dominant-baseline='middle'%3E🇹🇼%3C/text%3E%3Ctext x='83' y='145' font-size='16' font-weight='700' text-anchor='middle' fill='%23FFD888' font-family='sans-serif'%3E09-13/07%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%232C3A55'/%3E%3Ctext x='90' y='96' font-size='90' text-anchor='middle' dominant-baseline='middle'%3E🇹🇼%3C/text%3E%3Ctext x='90' y='155' font-size='18' font-weight='700' text-anchor='middle' fill='%23FFD888' font-family='sans-serif'%3E09-13/07%3C/text%3E%3C/svg%3E">
+
+<!-- Favicon for desktop browsers -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232C3A55'/%3E%3Ctext x='16' y='22' font-size='20' text-anchor='middle'%3E🇹🇼%3C/text%3E%3C/svg%3E">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap');
 
@@ -516,6 +533,77 @@ body {
   .bag-split { grid-template-columns: 1fr; }
   .note-grid { grid-template-columns: 1fr; }
 }
+
+/* ══════════════════════════════
+   CHECKLIST
+══════════════════════════════ */
+.cl-progress-wrap {
+  margin: 12px 16px 4px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.cl-progress-top {
+  display: flex; justify-content: space-between;
+  align-items: center; margin-bottom: 8px;
+}
+.cl-progress-label { font-size: 12px; font-weight: 700; color: var(--slate); }
+.cl-progress-pct   { font-size: 13px; font-weight: 700; color: var(--green); }
+.cl-bar-bg {
+  background: var(--line); border-radius: 10px; height: 8px; overflow: hidden;
+}
+.cl-bar-fill {
+  height: 100%; border-radius: 10px;
+  background: linear-gradient(90deg, #2E7D32, #66BB6A);
+  transition: width 0.4s ease;
+}
+.cl-section { margin: 0 16px 4px; }
+.cl-section-title {
+  font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--gold);
+  padding: 14px 0 8px; display: flex; align-items: center;
+  justify-content: space-between;
+}
+.cl-section-title .cl-count { font-size: 10px; color: var(--sub); font-weight: 500; letter-spacing: 0; text-transform: none; }
+.cl-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 11px 14px; background: var(--white);
+  border: 1px solid var(--line); border-radius: 10px;
+  margin-bottom: 8px; cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.cl-item.done { background: #F6FBF7; border-color: #C8E6C9; }
+.cl-item.done .cl-text { text-decoration: line-through; color: #AAA; }
+.cl-item.done .cl-sub  { color: #CCC; }
+.cl-checkbox {
+  width: 22px; height: 22px; border-radius: 6px;
+  border: 2px solid var(--line); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; transition: all 0.15s; margin-top: 1px;
+  background: var(--white);
+}
+.cl-item.done .cl-checkbox { background: #2E7D32; border-color: #2E7D32; }
+.cl-content { flex: 1; min-width: 0; }
+.cl-text { font-size: 13px; font-weight: 600; color: var(--slate); line-height: 1.3; }
+.cl-sub  { font-size: 11.5px; color: var(--sub); margin-top: 2px; line-height: 1.4; }
+.cl-tag  { display: inline-block; font-size: 10px; font-weight: 700; padding: 1px 7px; border-radius: 8px; margin-top: 4px; }
+.cl-tag-urgent { background: #FCE4EC; color: #C62828; }
+.cl-tag-doc    { background: #E3F2FD; color: #1565C0; }
+.cl-tag-pack   { background: #F3E5F5; color: #6A1B9A; }
+.cl-tag-money  { background: #FFF3E0; color: #E65100; }
+.cl-tag-health { background: #E8F5E9; color: #2E7D32; }
+.cl-reset-btn {
+  display: block; width: calc(100% - 32px); margin: 8px 16px 20px;
+  padding: 11px; background: transparent;
+  border: 1px solid var(--line); border-radius: 10px;
+  font-family: inherit; font-size: 12px; font-weight: 600;
+  color: var(--sub); cursor: pointer;
+}
+.cl-reset-btn:active { background: var(--mist); }
+
 </style>
 </head>
 <body>
@@ -575,6 +663,10 @@ body {
     <button class="tab-btn" onclick="switchTab('notes')" id="tab-notes">
       <span class="tab-icon">📋</span>
       <span class="tab-label">Lưu ý</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('checklist')" id="tab-checklist">
+      <span class="tab-icon">✅</span>
+      <span class="tab-label">Checklist</span>
     </button>
   </div>
 </div>
@@ -1327,6 +1419,249 @@ body {
   </div>
 </div>
 
+
+<!-- ═══════════════════════════════════════
+     TAB: CHECKLIST
+═══════════════════════════════════════ -->
+<div class="tab-panel" id="panel-checklist">
+
+  <!-- Progress bar -->
+  <div class="cl-progress-wrap">
+    <div class="cl-progress-top">
+      <span class="cl-progress-label">📝 Tiến độ chuẩn bị</span>
+      <span class="cl-progress-pct" id="cl-pct">0%</span>
+    </div>
+    <div class="cl-bar-bg"><div class="cl-bar-fill" id="cl-bar" style="width:0%"></div></div>
+  </div>
+
+  <!-- Nhóm 1: Giấy tờ -->
+  <div class="cl-section">
+    <div class="cl-section-title">📄 Giấy tờ & Thủ tục <span class="cl-count" id="cnt-doc"></span></div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="doc1">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Kiểm tra hộ chiếu còn hạn &gt;6 tháng</div>
+        <div class="cl-sub">Hạn tối thiểu: 13/01/2027. Kiểm tra ngay hôm nay.</div>
+        <span class="cl-tag cl-tag-urgent">🔴 Ưu tiên cao</span>
+      </div>
+    </div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="doc2">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Photo copy hộ chiếu (2–3 bản)</div>
+        <div class="cl-sub">Lưu 1 bản riêng biệt với hộ chiếu thật. Gửi bản scan vào email.</div>
+        <span class="cl-tag cl-tag-doc">📘 Giấy tờ</span>
+      </div>
+    </div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="doc3">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Nếu đã phẫu thuật thẩm mỹ mặt: đổi hộ chiếu mới</div>
+        <div class="cl-sub">Nâng mũi, cắt mí... bắt buộc đổi hộ chiếu trước tour.</div>
+        <span class="cl-tag cl-tag-urgent">🔴 Bắt buộc nếu có</span>
+      </div>
+    </div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="doc4">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Kiểm tra nghĩa vụ thuế trước xuất cảnh</div>
+        <div class="cl-sub">Chủ DN / hộ KD: dùng app Etax Mobile kiểm tra. Hoàn thành thuế trước, chờ 45 ngày.</div>
+        <span class="cl-tag cl-tag-urgent">🔴 Chủ DN / hộ KD</span>
+      </div>
+    </div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="doc5">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Lưu số HDV địa phương vào điện thoại</div>
+        <div class="cl-sub">Liên hệ Saigontourist lấy số trước khi đi: 0987.555.588 (Mr. Cường).</div>
+        <span class="cl-tag cl-tag-doc">📘 Liên lạc</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nhóm 2: Tài chính -->
+  <div class="cl-section">
+    <div class="cl-section-title">💰 Tài chính & Thanh toán <span class="cl-count" id="cnt-money"></span></div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="mon1">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Đổi tiền Đài tệ (TWD) trước khi đi</div>
+        <div class="cl-sub">Tỷ giá ~800–820 VNĐ/TWD. Đổi tại ngân hàng hoặc sân bay Đào Viên. Chợ đêm chỉ nhận tiền mặt.</div>
+        <span class="cl-tag cl-tag-money">💳 Tài chính</span>
+      </div>
+    </div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="mon2">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Kích hoạt thẻ quốc tế (Visa / Mastercard)</div>
+        <div class="cl-sub">Đảm bảo thẻ đang hoạt động thanh toán quốc tế. Kiểm tra hạn mức.</div>
+        <span class="cl-tag cl-tag-money">💳 Tài chính</span>
+      </div>
+    </div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="mon3">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Dự kiến ngân sách chi tiêu tự túc</div>
+        <div class="cl-sub">Ăn vặt: ~200–400 TWD/ngày. Mua sắm: tùy. Vé tầng 89 tháp 101: ~600 TWD. EasyCard: 500 TWD.</div>
+        <span class="cl-tag cl-tag-money">💳 Ngân sách</span>
+      </div>
+    </div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="mon4">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Thông báo cho ngân hàng về chuyến đi nước ngoài</div>
+        <div class="cl-sub">Tránh bị khóa thẻ khi quẹt tại Đài Loan. Gọi hotline ngân hàng trước 3–5 ngày.</div>
+        <span class="cl-tag cl-tag-money">💳 Tài chính</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nhóm 3: Hành lý -->
+  <div class="cl-section">
+    <div class="cl-section-title">🧳 Đóng gói hành lý <span class="cl-count" id="cnt-pack"></span></div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="pack1">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Cân vali ký gửi ≤ 23kg</div>
+        <div class="cl-sub">Mang cân hành lý mini theo để cân lại khi mua sắm về.</div>
+        <span class="cl-tag cl-tag-pack">🧳 Hành lý</span>
+      </div>
+    </div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="pack2">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Pin dự phòng để trong xách tay (KHÔNG ký gửi)</div>
+        <div class="cl-sub">Quy định hàng không bắt buộc. Pin lithium rời = xách tay, không được ký gửi.</div>
+        <span class="cl-tag cl-tag-urgent">🔴 Bắt buộc</span>
+      </div>
+    </div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="pack3">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Chất lỏng xách tay: mỗi chai ≤ 100ml, bỏ túi zip</div>
+        <div class="cl-sub">Kem dưỡng, sữa rửa mặt, dầu gội... mỗi chai ≤ 100ml. 1 túi zip 1 lít/người.</div>
+        <span class="cl-tag cl-tag-pack">🧳 Hành lý</span>
+      </div>
+    </div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="pack4">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Chuẩn bị quần áo Gala Dinner (N4 – 12/07)</div>
+        <div class="cl-sub">Dress code: lịch sự, sang trọng. Mang ít nhất 1 bộ dự phòng.</div>
+        <span class="cl-tag cl-tag-pack">🎉 Gala</span>
+      </div>
+    </div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="pack5">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Giày đi bộ thoải mái</div>
+        <div class="cl-sub">Lịch trình đi bộ nhiều (Cửu Phần có nhiều bậc thang). Tránh giày cao gót.</div>
+        <span class="cl-tag cl-tag-pack">🧳 Hành lý</span>
+      </div>
+    </div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="pack6">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Mang kem chống nắng SPF 50+</div>
+        <div class="cl-sub">Tháng 7 nắng nóng tại Đài Loan. Đạp xe Hồ Nhật Nguyệt = tiếp xúc nắng nhiều.</div>
+        <span class="cl-tag cl-tag-health">🌿 Sức khỏe</span>
+      </div>
+    </div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="pack7">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Adapter phích cắm (Đài Loan dùng ổ Type A – 110V)</div>
+        <div class="cl-sub">Đài Loan dùng 110V / 60Hz. Sạc điện thoại Việt Nam thường ổn nhưng nên mang adapter đề phòng.</div>
+        <span class="cl-tag cl-tag-pack">🧳 Thiết bị</span>
+      </div>
+    </div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="pack8">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Mua SIM data hoặc đặt Pocket WiFi trước</div>
+        <div class="cl-sub">Lấy tại sân bay Đào Viên ngay khi đến. Cần có mạng để dùng Google Maps, dịch tiếng Hoa.</div>
+        <span class="cl-tag cl-tag-pack">📱 Liên lạc</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nhóm 4: Sức khỏe -->
+  <div class="cl-section">
+    <div class="cl-section-title">🏥 Sức khỏe & Bảo hiểm <span class="cl-count" id="cnt-health"></span></div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="hlt1">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Mang thuốc cá nhân đủ dùng 5 ngày + dự phòng</div>
+        <div class="cl-sub">Thuốc huyết áp, tiểu đường, tim mạch... Để trong xách tay. Mang toa thuốc bản dịch tiếng Anh nếu có.</div>
+        <span class="cl-tag cl-tag-health">🌿 Sức khỏe</span>
+      </div>
+    </div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="hlt2">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Chuẩn bị thuốc thông dụng</div>
+        <div class="cl-sub">Hạ sốt, tiêu chảy, say tàu xe, thuốc dị ứng, băng cá nhân, dầu gió.</div>
+        <span class="cl-tag cl-tag-health">🌿 Sức khỏe</span>
+      </div>
+    </div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="hlt3">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Xác nhận bảo hiểm du lịch được tặng kèm</div>
+        <div class="cl-sub">Tối đa 1,2 tỷ VNĐ/người/vụ. Chỉ áp dụng đi về đúng lịch. Lưu giấy bảo hiểm theo người.</div>
+        <span class="cl-tag cl-tag-health">🛡 Bảo hiểm</span>
+      </div>
+    </div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="hlt4">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Khách ≥70 tuổi: đóng phí bảo hiểm cao cấp</div>
+        <div class="cl-sub">Liên hệ Saigontourist để đóng thêm. Khách ≥75 tuổi cần giấy xác nhận sức khỏe của bác sĩ.</div>
+        <span class="cl-tag cl-tag-health">🛡 Người cao tuổi</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nhóm 5: Ngày khởi hành -->
+  <div class="cl-section">
+    <div class="cl-section-title">🛫 Ngày khởi hành – 09/07 <span class="cl-count" id="cnt-depart"></span></div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="dep1">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Có mặt điểm hẹn lúc 07:30</div>
+        <div class="cl-sub">Điểm hẹn trung tâm Hà Nội. HDV Saigontourist đón, xe đưa ra Nội Bài.</div>
+        <span class="cl-tag cl-tag-urgent">🔴 Ngày đi</span>
+      </div>
+    </div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="dep2">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Kiểm tra lại toàn bộ hành lý trước khi ra khỏi nhà</div>
+        <div class="cl-sub">Passport ✓ · Tiền ✓ · Thẻ NH ✓ · Điện thoại ✓ · Sạc ✓ · Pin dự phòng (xách tay) ✓</div>
+        <span class="cl-tag cl-tag-urgent">🔴 Ngày đi</span>
+      </div>
+    </div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="dep3">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Mua EasyCard tại sân bay Đào Viên khi đến</div>
+        <div class="cl-sub">Mua ngay sau nhập cảnh tại 7-Eleven trong sân bay. Nạp 500 TWD đủ dùng cả tour.</div>
+        <span class="cl-tag cl-tag-doc">📘 Tại Đài Loan</span>
+      </div>
+    </div>
+    <div class="cl-item" onclick="toggleItem(this)" data-id="dep4">
+      <div class="cl-checkbox">✓</div>
+      <div class="cl-content">
+        <div class="cl-text">Giữ lại hóa đơn mua sắm để hoàn thuế VAT</div>
+        <div class="cl-sub">Làm thủ tục hoàn thuế tại sân bay Đào Viên trước cổng an ninh vào ngày về (13/07).</div>
+        <span class="cl-tag cl-tag-money">💳 Ngày về</span>
+      </div>
+    </div>
+  </div>
+
+  <button class="cl-reset-btn" onclick="resetChecklist()">↺ Đặt lại toàn bộ checklist</button>
+</div>
+
 <!-- FOOTER -->
 <div class="app-footer">
   <strong>Saigontourist Travel</strong> · Chi nhánh Hà Nội<br>
@@ -1334,22 +1669,95 @@ body {
 </div>
 
 <script>
+// ─── TAB NAVIGATION ───
 function switchTab(id) {
-  // Deactivate all panels & tabs
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-
-  // Activate selected
   document.getElementById('panel-' + id).classList.add('active');
   document.getElementById('tab-' + id).classList.add('active');
-
-  // Scroll tab button into view
   const btn = document.getElementById('tab-' + id);
   btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-
-  // Scroll page to top
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+// ─── CHECKLIST (localStorage) ───
+const STORAGE_KEY = 'dailan_checklist_v1';
+
+const GROUPS = {
+  doc:    ['doc1','doc2','doc3','doc4','doc5'],
+  money:  ['mon1','mon2','mon3','mon4'],
+  pack:   ['pack1','pack2','pack3','pack4','pack5','pack6','pack7','pack8'],
+  health: ['hlt1','hlt2','hlt3','hlt4'],
+  depart: ['dep1','dep2','dep3','dep4']
+};
+
+function loadState() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+  } catch(e) { return {}; }
+}
+
+function saveState(state) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+function toggleItem(el) {
+  const id = el.dataset.id;
+  const state = loadState();
+  state[id] = !state[id];
+  saveState(state);
+  applyItem(el, state[id]);
+  updateProgress(state);
+  updateGroupCounts(state);
+}
+
+function applyItem(el, done) {
+  if (done) {
+    el.classList.add('done');
+    el.querySelector('.cl-checkbox').textContent = '✓';
+  } else {
+    el.classList.remove('done');
+    el.querySelector('.cl-checkbox').textContent = '✓';
+  }
+}
+
+function updateProgress(state) {
+  const all = Object.values(GROUPS).flat();
+  const done = all.filter(id => state[id]).length;
+  const pct = Math.round((done / all.length) * 100);
+  const bar = document.getElementById('cl-bar');
+  const pctEl = document.getElementById('cl-pct');
+  if (bar) bar.style.width = pct + '%';
+  if (pctEl) pctEl.textContent = pct + '% (' + done + '/' + all.length + ')';
+}
+
+function updateGroupCounts(state) {
+  const map = { doc: 'cnt-doc', money: 'cnt-money', pack: 'cnt-pack', health: 'cnt-health', depart: 'cnt-depart' };
+  for (const [grp, ids] of Object.entries(GROUPS)) {
+    const done = ids.filter(id => state[id]).length;
+    const el = document.getElementById(map[grp]);
+    if (el) el.textContent = done + '/' + ids.length;
+  }
+}
+
+function resetChecklist() {
+  if (!confirm('Đặt lại toàn bộ checklist?')) return;
+  saveState({});
+  initChecklist();
+}
+
+function initChecklist() {
+  const state = loadState();
+  document.querySelectorAll('.cl-item').forEach(el => {
+    const id = el.dataset.id;
+    if (id) applyItem(el, !!state[id]);
+  });
+  updateProgress(state);
+  updateGroupCounts(state);
+}
+
+// Init on load
+document.addEventListener('DOMContentLoaded', initChecklist);
 </script>
 </body>
 </html>
