@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lịch Trình Đài Loan – Đoàn Hà Nội 09/07–13/07/2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap');
+
+  :root {
+    --red:    #C0392B;
+    --gold:   #C8922A;
+    --ink:    #1A1A2E;
+    --slate:  #2C3A55;
+    --mist:   #F0F4F8;
+    --cream:  #FDFBF7;
+    --line:   #D9CEB8;
+    --note:   #FFF8E7;
+    --note-border: #E8C84A;
+    --white:  #FFFFFF;
+    --day-bg: #E8EEF6;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--slate);
+    color: var(--white);
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .header-stripe {
+    height: 5px;
+    background: linear-gradient(90deg, var(--red) 0%, var(--gold) 50%, var(--red) 100%);
+  }
+
+  .header-body {
+    padding: 36px 48px 32px;
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .header-icon {
+    font-size: 52px;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .header-text { flex: 1; min-width: 240px; }
+
+  .tour-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .tour-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .tour-subtitle {
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 300;
+  }
+
+  .header-meta {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+
+  .meta-chip {
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.20);
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 12.5px;
+    font-weight: 500;
+  }
+
+  .meta-chip strong {
+    display: block;
+    font-size: 15px;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  /* ── NOTICE BAR ── */
+  .notice-bar {
+    background: var(--note);
+    border-top: 3px solid var(--note-border);
+    padding: 12px 48px;
+    font-size: 12.5px;
+    color: #7A5C00;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .notice-bar span { display: flex; align-items: center; gap: 6px; }
+
+  /* ── MAIN CONTENT ── */
+  .content {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 32px 60px;
+  }
+
+  /* ── QUICK OVERVIEW TABLE ── */
+  .overview-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 40px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+
+  .overview-title {
+    background: var(--slate);
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 12px 20px;
+  }
+
+  .overview-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .overview-table th {
+    background: var(--day-bg);
+    color: var(--slate);
+    font-weight: 600;
+    font-size: 11.5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .overview-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid #EEE;
+    vertical-align: middle;
+  }
+
+  .overview-table tr:last-child td { border-bottom: none; }
+  .overview-table tr:nth-child(even) td { background: #FAFAFA; }
+
+  .meal-dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    margin-right: 3px;
+    vertical-align: middle;
+  }
+  .meal-dot.no { background: #CCC; }
+  .meal-dot.yes { background: var(--gold); }
+
+  .meal-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    margin: 0 2px;
+    font-weight: 500;
+  }
+  .meal-badge.on  { background: #FFF3DC; color: #8A5C00; }
+  .meal-badge.off { background: #F0F0F0; color: #AAA; text-decoration: line-through; }
+
+  /* ── DAY SECTION ── */
+  .day-section {
+    margin-bottom: 36px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  }
+
+  .day-header {
+    background: var(--slate);
+    color: var(--white);
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .day-num {
+    background: var(--red);
+    color: var(--white);
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .day-info { flex: 1; }
+
+  .day-date {
+    font-size: 11px;
+    color: var(--gold);
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .day-name {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--white);
+  }
+
+  .day-flight {
+    background: rgba(200,146,42,0.15);
+    border: 1px solid rgba(200,146,42,0.40);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    color: #FFD888;
+    font-weight: 500;
+    text-align: right;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    background: var(--white);
+    padding: 20px 22px;
+  }
+
+  .tl-item {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+
+  .tl-item:last-child { margin-bottom: 0; }
+
+  .tl-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 52px;
+  }
+
+  .tl-time {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--red);
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+    margin-bottom: 4px;
+  }
+
+  .tl-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--white);
+    box-shadow: 0 0 0 1.5px var(--gold);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .tl-line {
+    flex: 1;
+    width: 1px;
+    background: var(--line);
+    margin-top: 4px;
+  }
+
+  .tl-item:last-child .tl-line { display: none; }
+
+  .tl-body { flex: 1; padding-bottom: 4px; }
+
+  .tl-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--slate);
+    margin-bottom: 3px;
+  }
+
+  .tl-desc {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.5;
+  }
+
+  .tl-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+  }
+
+  .tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    letter-spacing: 0.3px;
+  }
+  .tag-choice { background: #E3F2FD; color: #1565C0; }
+  .tag-incl  { background: #E8F5E9; color: #2E7D32; }
+  .tag-own   { background: #FFF3E0; color: #E65100; }
+  .tag-hotel { background: #F3E5F5; color: #6A1B9A; }
+  .tag-note  { background: #FCE4EC; color: #880E4F; }
+
+  /* ── NOTES BLOCK ── */
+  .notes-block {
+    background: var(--note);
+    border-left: 3px solid var(--note-border);
+    margin: 0;
+    padding: 14px 20px;
+  }
+
+  .notes-block-title {
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #8A6000;
+    margin-bottom: 8px;
+  }
+
+  .notes-block ul {
+    padding-left: 18px;
+    font-size: 12.5px;
+    color: #6B4D00;
+    line-height: 1.7;
+  }
+
+  /* ── GENERAL NOTES ── */
+  .general-notes {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 40px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  }
+
+  .general-notes-title {
+    background: var(--red);
+    color: var(--white);
+    padding: 12px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .general-notes-body {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .note-card {
+    background: var(--mist);
+    border-radius: 8px;
+    padding: 12px 16px;
+    border: 1px solid #DDE5EF;
+  }
+
+  .note-card-icon { font-size: 18px; margin-bottom: 4px; }
+  .note-card-title { font-size: 12px; font-weight: 700; color: var(--slate); margin-bottom: 4px; }
+  .note-card-body  { font-size: 12px; color: #555; line-height: 1.55; }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--slate);
+    color: rgba(255,255,255,0.65);
+    font-size: 12px;
+    padding: 20px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .footer strong { color: var(--gold); }
+
+  @media (max-width: 640px) {
+    .header-body { padding: 24px 20px; }
+    .notice-bar  { padding: 10px 20px; }
+    .content     { padding: 24px 16px 48px; }
+    .general-notes-body { grid-template-columns: 1fr; }
+    .footer      { padding: 16px 20px; flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-stripe"></div>
+  <div class="header-body">
+    <div class="header-icon">🇹🇼</div>
+    <div class="header-text">
+      <div class="tour-label">Saigontourist Travel · Chi nhánh Hà Nội</div>
+      <div class="tour-title">Đài Bắc – Đài Trung · 5N4Đ</div>
+      <div class="tour-subtitle">Phố cổ Thập Phần &amp; Cửu Phần · Hồ Nhật Nguyệt · Tháp 101 · Gala Dinner</div>
+      <div class="header-meta" style="margin-top:14px;">
+        <div class="meta-chip"><strong>ĐỢT 3 · Hà Nội</strong>Nhóm khởi hành HAN</div>
+        <div class="meta-chip"><strong>09/07 – 13/07/2026</strong>5 ngày 4 đêm</div>
+        <div class="meta-chip"><strong>China Airlines (CI)</strong>CI 792 / CI 793</div>
+        <div class="meta-chip"><strong>39 khách</strong>Dự kiến đoàn</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTICE BAR -->
+<div class="notice-bar">
+  <span>✈️ <b>Bay:</b> CI 792 · HAN→TPE · 11:30 – 15:20</span>
+  <span>✈️ <b>Về:</b> CI 793 · TPE→HAN · 14:35 – 16:50</span>
+  <span>🏨 <b>Khách sạn 4★:</b> Đài Trung (1 đêm) + Đài Bắc (3 đêm)</span>
+  <span>📋 <b>Gala Dinner:</b> Tối Ngày 4 (12/07)</span>
+</div>
+
+<div class="content">
+
+  <!-- QUICK OVERVIEW -->
+  <div class="overview-card">
+    <div class="overview-title">📅 &nbsp;TỔNG QUAN LỊCH TRÌNH</div>
+    <table class="overview-table">
+      <thead>
+        <tr>
+          <th>Ngày</th>
+          <th>Ngày / Thứ</th>
+          <th>Hành trình</th>
+          <th>Bữa ăn</th>
+          <th>Lưu trú</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>N1</b></td>
+          <td>09/07 · Thứ 5</td>
+          <td>Hà Nội → Đài Bắc → Đài Trung · Chợ đêm Phùng Giáp</td>
+          <td>
+            <span class="meal-badge off">Sáng</span>
+            <span class="meal-badge off">Trưa (MBay)</span>
+            <span class="meal-badge on">🌙 Tối</span>
+          </td>
+          <td>Đài Trung 4★</td>
+        </tr>
+        <tr>
+          <td><b>N2</b></td>
+          <td>10/07 · Thứ 6</td>
+          <td>Đài Trung → Hồ Nhật Nguyệt → Đài Bắc · Đạp xe / Thuyền</td>
+          <td>
+            <span class="meal-badge on">☀️ Sáng</span>
+            <span class="meal-badge on">🌤 Trưa</span>
+            <span class="meal-badge on">🌙 Tối</span>
+          </td>
+          <td>Đài Bắc 4★</td>
+        </tr>
+        <tr>
+          <td><b>N3</b></td>
+          <td>11/07 · Thứ 7</td>
+          <td>Đài Bắc → Phố cổ Thập Phần / Cửu Phần · Thả đèn trời</td>
+          <td>
+            <span class="meal-badge on">☀️ Sáng</span>
+            <span class="meal-badge on">🌤 Trưa</span>
+            <span class="meal-badge on">🌙 Tối</span>
+          </td>
+          <td>Đài Bắc 4★</td>
+        </tr>
+        <tr>
+          <td><b>N4</b></td>
+          <td>12/07 · CN</td>
+          <td>Đài Bắc · Tháp 101 · Ximending · <b>Gala Dinner</b></td>
+          <td>
+            <span class="meal-badge on">☀️ Sáng</span>
+            <span class="meal-badge on">🌤 Trưa</span>
+            <span class="meal-badge on">🌙 Gala</span>
+          </td>
+          <td>Đài Bắc 4★</td>
+        </tr>
+        <tr>
+          <td><b>N5</b></td>
+          <td>13/07 · Thứ 2</td>
+          <td>Đài Bắc · Chùa Long Sơn · Phố cổ Bolipiao → Hà Nội</td>
+          <td>
+            <span class="meal-badge on">☀️ Sáng</span>
+            <span class="meal-badge on">🌤 Trưa (Fastfood)</span>
+            <span class="meal-badge off">Tối</span>
+          </td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── NGÀY 1 ── -->
+  <div class="day-section">
+    <div class="day-header">
+      <div class="day-num">1</div>
+      <div class="day-info">
+        <div class="day-date">Thứ Năm · 09/07/2026</div>
+        <div class="day-name">Hà Nội → Đài Bắc → Đài Trung</div>
+      </div>
+      <div class="day-flight">✈ CI 792<br>11:30 → 15:20</div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">07:30</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Tập trung tại điểm hẹn trung tâm Hà Nội</div>
+          <div class="tl-desc">HDV Saigontourist đón đoàn, xe đưa ra Sân bay Quốc tế Nội Bài. Làm thủ tục check-in chuyến bay CI 792.</div>
+          <div class="tl-tags">
+            <span class="tag tag-note">⚠ Mang hộ chiếu còn hạn &gt;6 tháng từ ngày về</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">11:30</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Bay: Hà Nội (HAN) → Đài Bắc (TPE)</div>
+          <div class="tl-desc">China Airlines CI 792 · Bay thẳng ~3h50 · <b>Ăn trưa trên máy bay</b></div>
+          <div class="tl-tags">
+            <span class="tag tag-incl">✔ Trưa trên máy bay</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">15:20</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Hạ cánh Sân bay Đào Viên (Đài Bắc)</div>
+          <div class="tl-desc">Làm thủ tục nhập cảnh. HDV địa phương đón đoàn. Di chuyển bằng xe về <b>Đài Trung</b> (~135km · ~2 tiếng). Dùng đồ ăn nhẹ trên xe.</div>
+          <div class="tl-tags">
+            <span class="tag tag-incl">✔ Đồ ăn nhẹ trên xe</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">18:30</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Bữa tối tại nhà hàng Đài Trung</div>
+          <div class="tl-desc">Thưởng thức ẩm thực địa phương.</div>
+          <div class="tl-tags"><span class="tag tag-incl">✔ Tối bao gồm</span></div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">19:30</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Tham quan Chợ đêm Phùng Giáp (逢甲夜市)</div>
+          <div class="tl-desc">Chợ đêm lớn nhất Đài Trung, nổi tiếng với ẩm thực đường phố đa dạng và không khí sôi động. Tự do dạo chợ, thưởng thức trà sữa trân châu.</div>
+          <div class="tl-tags">
+            <span class="tag tag-own">💰 Ăn vặt / mua sắm tự túc</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">21:00</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Về khách sạn nhận phòng &amp; nghỉ ngơi</div>
+          <div class="tl-tags"><span class="tag tag-hotel">🏨 Đài Trung · 4 sao</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── NGÀY 2 ── -->
+  <div class="day-section">
+    <div class="day-header">
+      <div class="day-num">2</div>
+      <div class="day-info">
+        <div class="day-date">Thứ Sáu · 10/07/2026</div>
+        <div class="day-name">Đài Trung – Hồ Nhật Nguyệt – Đài Bắc</div>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">07:00</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Bữa sáng tại khách sạn</div>
+          <div class="tl-tags"><span class="tag tag-incl">✔ Sáng bao gồm</span></div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">08:00</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Tham quan Làng Cầu Vồng HOẶC Phố cổ Lộc Cảng</div>
+          <div class="tl-desc"><b>Làng Cầu Vồng (Rainbow Village)</b> – điểm check-in cực hot, những ngôi nhà phủ kín tranh vẽ đầy màu sắc độc đáo. <br><b>Phố cổ Lộc Cảng (Lukang)</b> – được ví như Hội An của Đài Loan, lưu giữ kiến trúc và văn hóa cổ thời Đài Loan truyền thống.</div>
+          <div class="tl-tags">
+            <span class="tag tag-choice">🔀 Chọn 1 trong 2</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">~09:30</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Trung tâm Nông Lâm – Đặc sản Linh Chi Đài Loan</div>
+          <div class="tl-desc">Tham quan và mua sắm đặc sản nấm linh chi nổi tiếng của Đài Loan. Tìm hiểu về quy trình canh tác nấm linh chi đặc trưng.</div>
+          <div class="tl-tags">
+            <span class="tag tag-own">💰 Mua sắm tự túc</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">12:00</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Bữa trưa tại nhà hàng</div>
+          <div class="tl-tags"><span class="tag tag-incl">✔ Trưa bao gồm</span></div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">13:30</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Đền Văn Võ (文武廟)</div>
+          <div class="tl-desc">Ngôi đền linh thiêng bên Hồ Nhật Nguyệt, thờ Khổng Tử và Quan Vũ. Kiến trúc Trung Hoa truyền thống tráng lệ, tầm nhìn ra hồ tuyệt đẹp.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">14:30</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Hồ Nhật Nguyệt – Đạp xe HOẶC Đi thuyền</div>
+          <div class="tl-desc">
+            <b>Đạp xe 1 tiếng</b> trên cung đường ven hồ được CNN bình chọn là Top 10 cung đường đẹp nhất thế giới. Phong cảnh non nước hùng vĩ.<br>
+            <b>Đi thuyền</b> tham quan Hồ Nhật Nguyệt từ mặt nước, ngắm toàn cảnh hồ và Đền Văn Võ.
+          </div>
+          <div class="tl-tags">
+            <span class="tag tag-choice">🔀 Chọn 1 trong 2</span>
+            <span class="tag tag-incl">✔ Vé xe đạp / thuyền bao gồm</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">16:30</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Mua sắm Đặc sản Trà Ô Long</div>
+          <div class="tl-desc">Trà Ô Long Hồ Nhật Nguyệt nổi tiếng toàn Đài Loan với hương vị đặc trưng nhờ khí hậu núi cao. Cơ hội chọn mua quà tặng.</div>
+          <div class="tl-tags"><span class="tag tag-own">💰 Mua sắm tự túc</span></div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">18:00</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Bữa tối tại nhà hàng</div>
+          <div class="tl-tags"><span class="tag tag-incl">✔ Tối bao gồm</span></div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">19:00</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Di chuyển về Đài Bắc</div>
+          <div class="tl-desc">~2 tiếng xe. Về khách sạn nhận phòng.</div>
+          <div class="tl-tags"><span class="tag tag-hotel">🏨 Đài Bắc · 4 sao (3 đêm)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── NGÀY 3 ── -->
+  <div class="day-section">
+    <div class="day-header">
+      <div class="day-num">3</div>
+      <div class="day-info">
+        <div class="day-date">Thứ Bảy · 11/07/2026</div>
+        <div class="day-name">Đài Bắc – Phố cổ Thập Phần / Cửu Phần</div>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">07:00</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Bữa sáng tại khách sạn</div>
+          <div class="tl-tags"><span class="tag tag-incl">✔ Sáng bao gồm</span></div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">08:00</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Cửa hàng Đặc sản Bánh Dứa (鳳梨酥)</div>
+          <div class="tl-desc">Bánh dứa là đặc sản nổi tiếng hàng đầu Đài Loan, thơm giòn với nhân dứa ngọt dịu. Món quà ý nghĩa không thể bỏ qua.</div>
+          <div class="tl-tags"><span class="tag tag-own">💰 Mua sắm tự túc</span></div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">~09:00</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Công viên Văn hóa &amp; Sáng tạo Songshan (松山文創園區)</div>
+          <div class="tl-desc">Di tích lịch sử cấp thành phố – nhà máy thuốc lá cũ được cải tạo thành trung tâm nghệ thuật &amp; thiết kế. Kiến trúc Baroque, triển lãm sáng tạo, cửa hàng thiết kế độc đáo và không gian xanh thoáng đãng.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">10:30</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Di chuyển đến Phố cổ Thập Phần (十份老街)</div>
+          <div class="tl-desc">~1 tiếng xe từ Đài Bắc.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">12:00</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Bữa trưa tại nhà hàng</div>
+          <div class="tl-tags"><span class="tag tag-incl">✔ Trưa bao gồm</span></div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">13:30</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Phố cổ Thập Phần – Thả đèn trời ước nguyện</div>
+          <div class="tl-desc">Thị trấn hoài cổ với những ngôi nhà mang đậm bản sắc văn hóa bản địa bên đường ray xe lửa. Trải nghiệm thả đèn trời (thiên đăng) rực rỡ – hoạt động không thể bỏ qua khi đến Thập Phần.</div>
+          <div class="tl-tags">
+            <span class="tag tag-incl">✔ Đèn lồng bao gồm (tiêu chuẩn 4 người/chiếc)</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">~15:30</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Phố cổ Cửu Phần (九份老街)</div>
+          <div class="tl-desc">Làng cổ kiến trúc thời nhà Thanh dựng lưng vào núi, nhìn ra biển. Nổi tiếng với những con hẻm đá, đèn lồng đỏ lung linh về đêm. Được cho là lấy cảm hứng cho phim hoạt hình "Spirited Away" của Studio Ghibli.</div>
+          <div class="tl-tags">
+            <span class="tag tag-own">💰 Ăn uống / đồ lưu niệm tự túc</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">18:00</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Bữa tối tại nhà hàng</div>
+          <div class="tl-tags"><span class="tag tag-incl">✔ Tối bao gồm</span></div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">19:30</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Về khách sạn – Tự do khám phá Chợ đêm Ximending</div>
+          <div class="tl-desc">Tùy chọn: nghỉ ngơi tại khách sạn hoặc tự do dạo phố đêm Ximending (西門町) náo nhiệt – mua sắm, ẩm thực, giải trí đến khuya.</div>
+          <div class="tl-tags">
+            <span class="tag tag-choice">🔀 Tự do buổi tối</span>
+            <span class="tag tag-hotel">🏨 Đài Bắc · 4 sao</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── NGÀY 4 ── -->
+  <div class="day-section">
+    <div class="day-header">
+      <div class="day-num">4</div>
+      <div class="day-info">
+        <div class="day-date">Chủ Nhật · 12/07/2026</div>
+        <div class="day-name">Đài Bắc · Tháp 101 · Ximending · Gala Dinner 🎉</div>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">07:00</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Bữa sáng tại khách sạn</div>
+          <div class="tl-tags"><span class="tag tag-incl">✔ Sáng bao gồm</span></div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">09:00</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Quảng trường Tự Do &amp; Phủ Tổng Thống</div>
+          <div class="tl-desc">Quảng trường Tự Do (中正紀念堂) – nơi có Tượng đài Tưởng Giới Thạch và các lễ đổi gác ấn tượng. Phủ Tổng Thống – công trình kiến trúc thực dân Nhật Bản nổi bật.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">~10:00</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Trung tâm Phong Thủy Tì Hưu</div>
+          <div class="tl-desc">Tham quan và mua sắm đồ phong thủy đặc trưng Đài Loan.</div>
+          <div class="tl-tags"><span class="tag tag-own">💰 Mua sắm tự túc</span></div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">~10:30</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Tòa tháp Đài Bắc 101 (台北101)</div>
+          <div class="tl-desc">Biểu tượng của Đài Bắc – từng là tòa nhà cao nhất thế giới (508m). Tự do mua sắm thời trang &amp; mỹ phẩm tại trung tâm thương mại. Lên tầng quan sát 89 ngắm toàn cảnh thành phố nếu muốn.</div>
+          <div class="tl-tags">
+            <span class="tag tag-own">💰 Vé lên tầng 89 tự túc</span>
+            <span class="tag tag-own">💰 Mua sắm tự túc</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">12:00</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Bữa trưa tại nhà hàng</div>
+          <div class="tl-tags"><span class="tag tag-incl">✔ Trưa bao gồm</span></div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">13:30</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Phố đi bộ Ximending (西門町)</div>
+          <div class="tl-desc">Thiên đường mua sắm &amp; ẩm thực sôi động bậc nhất Đài Bắc. Rực rỡ biển hiệu neon, văn hóa đường phố đặc sắc. Thỏa sức mua sắm quần áo, phụ kiện, mỹ phẩm và snack.</div>
+          <div class="tl-tags"><span class="tag tag-own">💰 Tự do mua sắm</span></div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">18:30</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">🎉 GALA DINNER – Tiệc tri ân đoàn</div>
+          <div class="tl-desc">Tiệc Gala đặc biệt – chương trình riêng của Đợt 3 Hà Nội. Thưởng thức ẩm thực cao cấp, giao lưu kỷ niệm chuyến đi cùng toàn đoàn.</div>
+          <div class="tl-tags">
+            <span class="tag tag-incl">✔ Gala bao gồm trong giá tour</span>
+            <span class="tag tag-note">⚠ Dress code: Lịch sự, sang trọng</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">21:30</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Về khách sạn nghỉ ngơi</div>
+          <div class="tl-tags"><span class="tag tag-hotel">🏨 Đài Bắc · 4 sao</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── NGÀY 5 ── -->
+  <div class="day-section">
+    <div class="day-header">
+      <div class="day-num">5</div>
+      <div class="day-info">
+        <div class="day-date">Thứ Hai · 13/07/2026</div>
+        <div class="day-name">Đài Bắc → Hà Nội</div>
+      </div>
+      <div class="day-flight">✈ CI 793<br>14:35 → 16:50</div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">07:00</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Bữa sáng &amp; Trả phòng khách sạn</div>
+          <div class="tl-tags"><span class="tag tag-incl">✔ Sáng bao gồm</span></div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">08:00</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Chùa (Đền) Long Sơn (龍山寺)</div>
+          <div class="tl-desc">Ngôi chùa cổ nhất và linh thiêng nhất Đài Loan, xây dựng từ năm 1738. Kiến trúc truyền thống Phúc Kiến-Đài Loan tuyệt đẹp, là nơi cầu nguyện linh ứng của người dân địa phương.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">~09:00</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Phố cổ Bolipiao (剝皮寮歷史街區)</div>
+          <div class="tl-desc">Khu phố lịch sử được bảo tồn từ thời Nhật Bản, nằm cạnh Chùa Long Sơn. Những dãy nhà phố cổ độc đáo, hay xuất hiện trong phim ảnh Đài Loan.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">10:00</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Ra Sân bay Quốc tế Đào Viên</div>
+          <div class="tl-desc">Làm thủ tục check-in chuyến bay CI 793. Ăn trưa với đồ ăn nhanh (fastfood) tại sân bay.</div>
+          <div class="tl-tags">
+            <span class="tag tag-incl">✔ Trưa fastfood bao gồm</span>
+            <span class="tag tag-note">⚠ Kiểm tra hành lý ký gửi &lt;20kg/người</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">14:35</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Bay: Đài Bắc (TPE) → Hà Nội (HAN)</div>
+          <div class="tl-desc">China Airlines CI 793 · Bay ~2h15</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">16:50</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Hạ cánh Sân bay Quốc tế Nội Bài</div>
+          <div class="tl-desc">Làm thủ tục nhập cảnh. Xe Saigontourist đón đoàn về điểm hẹn ban đầu. <b>Kết thúc hành trình.</b></div>
+        </div>
+      </div>
+    </div>
+    <div class="notes-block">
+      <div class="notes-block-title">📌 Lưu ý cuối chuyến</div>
+      <ul>
+        <li>Giữ lại toàn bộ hóa đơn mua sắm tại Đài Loan để làm thủ tục hoàn thuế VAT tại sân bay (nếu đủ điều kiện).</li>
+        <li>Đổi lại tiền Đài tệ (TWD) còn dư trước khi qua cổng an ninh.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── GENERAL NOTES ── -->
+  <div class="general-notes">
+    <div class="general-notes-title">📋 &nbsp;GHI CHÚ QUAN TRỌNG</div>
+    <div class="general-notes-body">
+      <div class="note-card">
+        <div class="note-card-icon">🛂</div>
+        <div class="note-card-title">Giấy tờ &amp; Hộ chiếu</div>
+        <div class="note-card-body">Hộ chiếu còn hạn <b>trên 6 tháng</b> kể từ ngày 13/07/2026. Đã từng phẫu thuật thẩm mỹ mặt (nâng mũi, cắt mí…) cần đổi hộ chiếu mới trước tour.</div>
+      </div>
+      <div class="note-card">
+        <div class="note-card-icon">🏥</div>
+        <div class="note-card-title">Sức khỏe &amp; Tuổi tác</div>
+        <div class="note-card-body">Từ 70 tuổi: đóng thêm phí bảo hiểm cao cấp. Từ 75 tuổi: cần giấy xác nhận sức khỏe của Bác sĩ <em>và</em> người thân dưới 60 tuổi đi kèm. Không nhận khách có thai từ 5 tháng trở lên.</div>
+      </div>
+      <div class="note-card">
+        <div class="note-card-icon">💰</div>
+        <div class="note-card-title">Thuế &amp; Xuất cảnh</div>
+        <div class="note-card-body">Chủ doanh nghiệp, hộ kinh doanh, cá nhân phải nộp thuế cần hoàn thành nghĩa vụ thuế trước khi xuất cảnh (chờ 45 ngày sau khi nộp thuế xong). Kiểm tra qua app <b>Etax Mobile</b>.</div>
+      </div>
+      <div class="note-card">
+        <div class="note-card-icon">🛡</div>
+        <div class="note-card-title">Bảo hiểm du lịch</div>
+        <div class="note-card-body">Tour bao gồm bảo hiểm du lịch tặng kèm, mức tối đa <b>1.200.000.000 VNĐ/khách/vụ</b>. Chỉ áp dụng khi đi về đúng lịch. Đến sớm/về muộn hơn: mua bổ sung bảo hiểm.</div>
+      </div>
+      <div class="note-card">
+        <div class="note-card-icon">✈</div>
+        <div class="note-card-title">Phụ phí hàng không</div>
+        <div class="note-card-body">Phụ phí nhiên liệu và các phụ phí hàng không có thể thay đổi theo tình hình của China Airlines. Xác nhận lại khi đăng ký.</div>
+      </div>
+      <div class="note-card">
+        <div class="note-card-icon">🗺</div>
+        <div class="note-card-title">Thứ tự tham quan</div>
+        <div class="note-card-body">Thứ tự &amp; thời gian các điểm tham quan có thể thay đổi tùy thời tiết và giao thông tại Đài Loan, nhưng đảm bảo đầy đủ các điểm theo chương trình.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div>
+    <strong>Saigontourist Travel</strong> · Chi nhánh Hà Nội<br>
+    55B Phan Chu Trinh, P. Cửa Nam | Tầng 11, 249A Thụy Khuê, P. Tây Hồ
+  </div>
+  <div style="text-align:right;">
+    ĐT: <strong>024.38 250 923</strong> (Ext: 555)<br>
+    Hotline: <strong>0987.555.588</strong> (Mr. Cường)
+  </div>
+</div>
+
+</body>
+</html>
