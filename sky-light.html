@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bầu trời sao lấp lánh</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #04060d;
+  }
+
+  .sky {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 55% 40% at 68% 14%, rgba(195, 210, 230, 0.12), transparent 58%),
+      linear-gradient(165deg, #04060d 0%, #060a16 24%, #091428 48%, #0c1c34 70%, #08121f 100%);
+  }
+
+  /* ---------- TINH VÂN (nhiều dải mây riêng, xoay góc để có hình sợi tự nhiên) ---------- */
+  .clouds {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+  }
+  .wisp {
+    position: absolute;
+    border-radius: 50%;
+    mix-blend-mode: screen;
+    filter: blur(var(--blur, 22px));
+    transform: rotate(var(--rot, 0deg));
+  }
+
+  /* ---------- SAO ---------- */
+  .stars { position: absolute; inset: 0; z-index: 2; will-change: transform; transform: translate3d(0, 0, 0); }
+
+  .star-hit {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .star {
+    border-radius: 50%;
+    background: #fdfaf0;
+    animation: twinkle var(--dur, 3s) ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
+  }
+  .star.warm { background: #ffe9b8; }
+  .star.blue { background: #d6e6ff; }
+  .star.gold {
+    background: radial-gradient(circle, #fff6da, #ffcf6b 55%, #ffab3d);
+    box-shadow:
+      0 0 5px 1.5px rgba(255, 195, 100, 0.8),
+      0 0 10px 4px rgba(255, 170, 80, 0.35);
+  }
+
+  /* Sao sáng có tia chéo kiểu ảnh chụp thiên văn */
+  .star.spike {
+    background: radial-gradient(circle, #ffffff 0%, rgba(255, 255, 255, 0.85) 42%, transparent 72%);
+    box-shadow: 0 0 7px 2px rgba(255, 255, 255, 0.6), 0 0 16px 6px rgba(255, 255, 255, 0.22);
+  }
+  .star.spike.blue {
+    background: radial-gradient(circle, #eaf3ff 0%, rgba(185, 212, 255, 0.85) 42%, transparent 72%);
+    box-shadow: 0 0 7px 2px rgba(180, 210, 255, 0.55), 0 0 16px 6px rgba(160, 195, 255, 0.2);
+  }
+  .star.spike.gold {
+    background: radial-gradient(circle, #fff1cf 0%, rgba(255, 197, 115, 0.85) 42%, transparent 72%);
+    box-shadow: 0 0 7px 2px rgba(255, 195, 110, 0.55), 0 0 16px 6px rgba(255, 175, 90, 0.2);
+  }
+  .star.spike::before,
+  .star.spike::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--spike-len, 24px);
+    height: 1.2px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.85) 50%, transparent);
+    transform: translate(-50%, -50%);
+  }
+  .star.spike::after { transform: translate(-50%, -50%) rotate(90deg); }
+  .star.spike.blue::before,
+  .star.spike.blue::after {
+    background: linear-gradient(90deg, transparent, rgba(200, 222, 255, 0.85) 50%, transparent);
+  }
+  .star.spike.gold::before,
+  .star.spike.gold::after {
+    background: linear-gradient(90deg, transparent, rgba(255, 205, 135, 0.85) 50%, transparent);
+  }
+
+  @keyframes starBurst {
+    0%   { transform: scale(1);   filter: brightness(1); }
+    45%  { transform: scale(2.4); filter: brightness(2.2); }
+    100% { transform: scale(1);   filter: brightness(1); }
+  }
+  .star-hit.burst .star { animation: starBurst 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: var(--min, 0.25); transform: scale(0.8); }
+    50%      { opacity: 1;                transform: scale(1.2); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .star { animation: none; opacity: 0.7; }
+    .star-hit.burst .star { animation: none; }
+  }
+
+  /* ---------- SAO BĂNG ---------- */
+  .shooting-stars {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+  }
+  .shooting-star {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120px;
+    height: 28px;
+    margin-top: -14px;
+    transform-origin: 0% 50%;
+    opacity: 0;
+    pointer-events: auto;
+    cursor: pointer;
+  }
+  .shooting-star::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 120px;
+    height: 4px;
+    transform: translateY(-50%);
+    border-radius: 4px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 78%, #fff 100%);
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+  }
+  .shooting-star.flying { animation: shootMove var(--flight, 1.3s) linear forwards; }
+  .shooting-star.caught { animation: shootCaught 0.22s ease-out forwards; }
+
+  @keyframes shootMove {
+    0%   { transform: rotate(var(--angle)) translateX(-20px); opacity: 0; }
+    6%   { opacity: 1; }
+    82%  { opacity: 1; }
+    100% { transform: rotate(var(--angle)) translateX(60vmax); opacity: 0; }
+  }
+  @keyframes shootCaught {
+    0%   { transform: rotate(var(--angle)) scale(1);   filter: brightness(2.6); opacity: 1; }
+    100% { transform: rotate(var(--angle)) scale(2.4); filter: brightness(0.4); opacity: 0; }
+  }
+
+  /* ---------- POPUP LỜI CHÚC ---------- */
+  .popup {
+    position: fixed;
+    left: 50%;
+    bottom: 9%;
+    transform: translate(-50%, 12px) scale(0.94);
+    max-width: 78%;
+    padding: 12px 18px;
+    border-radius: 14px;
+    background: rgba(10, 18, 32, 0.72);
+    border: 1px solid rgba(255, 210, 140, 0.35);
+    box-shadow: 0 0 24px rgba(255, 200, 120, 0.18), 0 8px 24px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(6px);
+    color: #fdf3df;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    text-align: center;
+    white-space: pre-line;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 10;
+  }
+  .popup.show {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+    pointer-events: auto;
+    cursor: pointer;
+  }
+  .popup.rare {
+    border-color: rgba(255, 235, 180, 0.75);
+    box-shadow: 0 0 34px rgba(255, 210, 130, 0.4), 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+
+  /* ---------- CHÒM SAO KỶ NIỆM (hình trái tim, cố định) ---------- */
+  .heart-line {
+    position: absolute;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0.35;
+  }
+  .star.heart {
+    background: radial-gradient(circle, #ffe3ec, #ff9db8 55%, #ff5c8a);
+    box-shadow: 0 0 6px 2px rgba(255, 130, 170, 0.65), 0 0 14px 5px rgba(255, 90, 140, 0.3);
+    animation: heartGlow 2.8s ease-in-out infinite;
+  }
+  @keyframes heartGlow {
+    0%, 100% { opacity: 0.6; transform: scale(0.9); }
+    50%      { opacity: 1;   transform: scale(1.25); }
+  }
+
+  /* ---------- MẶT TRĂNG (bấm để nghe chuyện) ---------- */
+  .moon {
+    position: absolute;
+    top: 6%;
+    right: 8%;
+    width: 15vmin;
+    height: 15vmin;
+    border-radius: 50%;
+    z-index: 3;
+    cursor: pointer;
+    background: radial-gradient(circle at 32% 28%, #fffdf6 0%, #fff2d2 30%, #e9c98c 65%, #c79a5c 100%);
+    box-shadow:
+      inset 6px 5px 14px rgba(110, 75, 40, 0.35),
+      inset -4px -4px 10px rgba(255, 250, 230, 0.3),
+      0 0 20px 6px rgba(255, 225, 160, 0.4),
+      0 0 46px 18px rgba(255, 210, 130, 0.22);
+    transition: transform 0.25s ease;
+  }
+  .moon:hover, .moon:active { transform: scale(1.06); }
+
+  /* ---------- NÚT ĐIỀU KHIỂN GÓC MÀN HÌNH ---------- */
+  .controls {
+    position: fixed;
+    top: max(14px, env(safe-area-inset-top));
+    right: 14px;
+    z-index: 12;
+    display: flex;
+    gap: 8px;
+  }
+  .ctrl-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(10, 18, 32, 0.55);
+    backdrop-filter: blur(6px);
+    color: #fdf3df;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .ctrl-btn.active { border-color: rgba(255, 210, 140, 0.6); }
+
+  /* ---------- BANNER THEO THỜI ĐIỂM MỞ WEB ---------- */
+  .greeting {
+    position: fixed;
+    left: 50%;
+    top: max(16px, env(safe-area-inset-top));
+    transform: translate(-50%, -12px);
+    max-width: 84%;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: rgba(10, 18, 32, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(6px);
+    color: #eaf0fb;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 13px;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    z-index: 11;
+  }
+  .greeting.show { opacity: 1; transform: translate(-50%, 0); }
+
+  /* ---------- MODAL DÙNG CHUNG (tạo sao / chuyện trăng / điều ước sao băng) ---------- */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 6, 12, 0.62);
+    backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 20;
+  }
+  .overlay.show { opacity: 1; pointer-events: auto; }
+  .modal {
+    width: 100%;
+    max-width: 360px;
+    padding: 22px 20px;
+    border-radius: 18px;
+    background: linear-gradient(165deg, rgba(16, 24, 42, 0.96), rgba(9, 14, 26, 0.96));
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    color: #eef2fb;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    transform: translateY(10px) scale(0.97);
+    transition: transform 0.25s ease;
+  }
+  .overlay.show .modal { transform: translateY(0) scale(1); }
+  .modal h3 { font-size: 16px; margin-bottom: 6px; font-weight: 600; }
+  .modal p.sub { font-size: 12.5px; color: #9aa7c2; margin-bottom: 14px; line-height: 1.5; }
+  .modal textarea, .modal input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 10px;
+    padding: 10px 12px;
+    color: #fff;
+    font-size: 14px;
+    font-family: inherit;
+    resize: none;
+    margin-bottom: 10px;
+  }
+  .modal textarea { height: 74px; }
+  .modal .row { display: flex; gap: 8px; }
+  .modal .row button { flex: 1; }
+  .modal button.primary, .modal button.secondary {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: none;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .modal button.primary {
+    background: linear-gradient(135deg, #ffdf8e, #ffab3d);
+    color: #2a1a05;
+  }
+  .modal button.secondary {
+    background: rgba(255, 255, 255, 0.08);
+    color: #cfd7ea;
+  }
+  .modal .story-text {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #e6ebf7;
+    white-space: pre-wrap;
+  }
+  .modal .story-meta {
+    margin-top: 12px;
+    font-size: 11.5px;
+    color: #8b96b3;
+  }
+
+  /* Sao do người dùng tự tạo — có nhịp phát sáng riêng, khác twinkle thường */
+  .star.user-made {
+    background: radial-gradient(circle, #fff8e6, #ffd98a 55%, #ffb14d);
+    box-shadow: 0 0 8px 3px rgba(255, 200, 110, 0.55);
+    animation: userGlow 2.6s ease-in-out infinite;
+  }
+  @keyframes userGlow {
+    0%, 100% { opacity: 0.55; transform: scale(0.9); }
+    50%      { opacity: 1;    transform: scale(1.25); }
+  }
+
+  /* Sao bí mật (easter egg) - gần như vô hình cho tới khi được gợi ý */
+  .secret-star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #fff;
+    opacity: 0.12;
+    z-index: 5;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+  <div class="sky">
+    <div class="clouds"></div>
+    <div class="stars" id="stars"></div>
+    <div class="moon" id="moon"></div>
+    <div class="shooting-stars" id="shootingStars"></div>
+  </div>
+
+  <div class="controls">
+    <button class="ctrl-btn" id="soundBtn" title="Âm thanh">🔈</button>
+    <button class="ctrl-btn" id="addStarBtn" title="Tạo ngôi sao của bạn">➕</button>
+  </div>
+
+  <div class="greeting" id="greeting"></div>
+
+  <div class="popup" id="popup"><span id="popup-text"></span></div>
+
+  <!-- Modal: tạo ngôi sao của riêng bạn -->
+  <div class="overlay" id="createOverlay">
+    <div class="modal">
+      <h3>Gửi một điều gì đó lên bầu trời</h3>
+      <p class="sub">Viết một lời nhắn, nó sẽ hoá thành một ngôi sao mới — mở lại trang này, ngôi sao vẫn còn ở đó.</p>
+      <textarea id="createMsg" maxlength="140" placeholder="Hãy cố gắng nhé, tương lai đang chờ bạn..."></textarea>
+      <input id="createAuthor" maxlength="30" placeholder="Tên bạn (không bắt buộc)">
+      <div class="row">
+        <button class="secondary" id="createCancel">Để sau</button>
+        <button class="primary" id="createSubmit">✨ Gửi lên bầu trời</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: trăng kể chuyện -->
+  <div class="overlay" id="moonOverlay">
+    <div class="modal">
+      <h3 id="moonTitle">🌕 Mặt trăng hôm nay kể rằng</h3>
+      <p class="story-text" id="moonStory"></p>
+      <p class="story-meta" id="moonMeta"></p>
+      <div class="row" style="margin-top:16px;">
+        <button class="primary" id="moonClose" style="width:100%;">Cảm ơn trăng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: viết điều ước thả theo sao băng -->
+  <div class="overlay" id="wishOverlay">
+    <div class="modal">
+      <h3>☄️ Một điều ước sắp bay lên</h3>
+      <p class="sub">Viết điều bạn ước, rồi thả nó lên bầu trời cùng sao băng.</p>
+      <textarea id="wishInput" maxlength="120" placeholder="Ngày mai sẽ tốt đẹp hơn hôm nay..."></textarea>
+      <div class="row">
+        <button class="secondary" id="wishCancel">Thôi</button>
+        <button class="primary" id="wishSubmit">Thả lên bầu trời</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: bí mật -->
+  <div class="overlay" id="secretOverlay">
+    <div class="modal">
+      <h3>🌟 Bạn đã tìm thấy ngôi sao bí mật</h3>
+      <p class="story-text">Không phải ai cũng nhìn thấy nó.<br>Điều đó có nghĩa là bạn rất kiên nhẫn.</p>
+      <div class="row" style="margin-top:16px;">
+        <button class="primary" id="secretClose" style="width:100%;">🪐</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const container = document.getElementById('stars');
+  const frag = document.createDocumentFragment();
+
+  function makeStar({ cls, minSize, maxSize, minDur, maxDur, maxTop }) {
+    const hit = document.createElement('div');
+    hit.className = 'star-hit';
+    hit.style.left = (Math.random() * 100).toFixed(2) + '%';
+    hit.style.top = (Math.random() * (maxTop || 100)).toFixed(2) + '%';
+
+    const el = document.createElement('div');
+    el.className = 'star ' + cls;
+    const size = (Math.random() * (maxSize - minSize) + minSize).toFixed(2);
+    el.style.width = size + 'px';
+    el.style.height = size + 'px';
+    el.style.setProperty('--min', (Math.random() * 0.35 + 0.15).toFixed(2));
+    el.style.setProperty('--dur', (Math.random() * (maxDur - minDur) + minDur).toFixed(2) + 's');
+    el.style.setProperty('--delay', (Math.random() * 5).toFixed(2) + 's');
+
+    hit.appendChild(el);
+    return hit;
+  }
+
+  // ---------- Tinh vân: các dải mây riêng, đặt + xoay góc theo đúng bố cục ảnh mẫu ----------
+  const cloudsContainer = document.querySelector('.clouds');
+  const wisps = [
+    { top:  4, left: 66, w: 46, h: 18, rot: -18, blur: 24, c: '215,228,244', a: 0.40 },
+    { top: 10, left: 80, w: 30, h: 14, rot:  -8, blur: 20, c: '225,235,248', a: 0.34 },
+    { top: 17, left: 50, w: 52, h: 20, rot: -26, blur: 24, c: '205,222,242', a: 0.48 },
+    { top: 25, left: 32, w: 56, h: 24, rot: -20, blur: 26, c: '218,230,248', a: 0.55 },
+    { top: 35, left: 16, w: 46, h: 20, rot: -30, blur: 24, c: '190,210,236', a: 0.42 },
+    { top: 45, left:  6, w: 36, h: 16, rot: -34, blur: 22, c: '170,195,226', a: 0.32 },
+    { top: 54, left:  0, w: 26, h: 12, rot: -38, blur: 20, c: '150,178,212', a: 0.24 },
+    { top: 47, left: 44, w: 22, h:  9, rot: -58, blur: 18, c: '150,178,212', a: 0.20 },
+    { top: 59, left: 38, w: 16, h:  7, rot: -62, blur: 16, c: '130,160,198', a: 0.15 },
+    { top: 68, left: -2, w: 20, h:  8, rot: -40, blur: 18, c: '120,150,188', a: 0.17 },
+    { top: 80, left: -4, w: 16, h:  6, rot: -44, blur: 16, c: '105,135,175', a: 0.12 }
+  ];
+  wisps.forEach((w) => {
+    const d = document.createElement('div');
+    d.className = 'wisp';
+    d.style.width = w.w + 'vmin';
+    d.style.height = w.h + 'vmin';
+    d.style.left = w.left + '%';
+    d.style.top = w.top + '%';
+    d.style.marginLeft = (-w.w / 2) + 'vmin';
+    d.style.marginTop = (-w.h / 2) + 'vmin';
+    d.style.setProperty('--rot', w.rot + 'deg');
+    d.style.setProperty('--blur', w.blur + 'px');
+    d.style.background = `radial-gradient(ellipse at center, rgba(${w.c}, ${w.a}), transparent 72%)`;
+    cloudsContainer.appendChild(d);
+  });
+
+  // Sao nhỏ li ti - phủ dày đặc toàn bộ khung hình như ảnh mẫu (tier: small)
+  const tinyPalette = ['', '', '', 'blue', 'blue', 'warm'];
+  for (let i = 0; i < 680; i++) {
+    const cls = tinyPalette[Math.floor(Math.random() * tinyPalette.length)];
+    const hit = makeStar({ cls, minSize: 0.3, maxSize: 1.5, minDur: 2, maxDur: 5 });
+    hit.dataset.tier = 'small';
+    frag.appendChild(hit);
+  }
+
+  // Sao nhỏ-vừa, màu rõ hơn một chút (tier: small)
+  const smallPalette = ['', 'blue', 'blue', 'warm', 'gold'];
+  for (let i = 0; i < 140; i++) {
+    const cls = smallPalette[Math.floor(Math.random() * smallPalette.length)];
+    const hit = makeStar({ cls, minSize: 1, maxSize: 2.2, minDur: 2.5, maxDur: 5 });
+    hit.dataset.tier = 'small';
+    frag.appendChild(hit);
+  }
+
+  // Sao sáng có tia chéo (diffraction spike) rải khắp khung hình (tier: bright - có câu chuyện nhỏ)
+  const spikeTints = ['', '', '', 'blue', 'blue', 'gold'];
+  for (let i = 0; i < 24; i++) {
+    const tint = spikeTints[Math.floor(Math.random() * spikeTints.length)];
+    const hit = makeStar({ cls: ('spike ' + tint).trim(), minSize: 3, maxSize: 6, minDur: 3, maxDur: 6, maxTop: 98 });
+    hit.firstChild.style.setProperty('--spike-len', (Math.random() * 20 + 16).toFixed(1) + 'px');
+    hit.dataset.tier = 'bright';
+    frag.appendChild(hit);
+  }
+
+  // Vài sao "đinh" đặt đúng vị trí nổi bật như trong ảnh mẫu (tier: special - lời nhắn bí mật)
+  const signatureStars = [
+    { left: 27, top: 33, cls: 'spike gold', size: 6.5, spikeLen: 34 },
+    { left: 87, top: 5,  cls: 'spike',      size: 4,   spikeLen: 22 },
+    { left: 60, top: 47, cls: 'spike blue', size: 4.5, spikeLen: 26 }
+  ];
+  signatureStars.forEach((s) => {
+    const hit = makeStar({ cls: s.cls, minSize: s.size, maxSize: s.size, minDur: 3, maxDur: 5 });
+    hit.style.left = s.left + '%';
+    hit.style.top = s.top + '%';
+    hit.firstChild.style.setProperty('--spike-len', s.spikeLen + 'px');
+    hit.dataset.tier = 'special';
+    frag.appendChild(hit);
+  });
+
+  container.appendChild(frag);
+
+  // ---------- Bấm vào một ngôi sao bất kỳ để nhận lời chúc ngẫu nhiên ----------
+  const messages = [
+    '✨ Điều ước của bạn vừa được gửi đi rồi đó.',
+    '🌙 Ngủ ngon đêm nay, mai sẽ là một ngày đẹp trời.',
+    '⭐ Ánh sáng từ ngôi sao này đã bay hàng triệu năm mới tới đây.',
+    '🌠 Nhắm mắt lại, ước một điều... xong chưa nào?',
+    '💫 Có một ngôi sao mang tên bạn, lấp lánh y như vậy đó.',
+    '✨ Vũ trụ vừa nghe thấy lời bạn thì thầm.',
+    '🌟 Hôm nay là một ngày may mắn, tin mình đi.',
+    '🌌 Dải Ngân Hà có khoảng 100 tỷ ngôi sao — bạn vừa chạm vào một trong số đó.',
+    '🌌 Tinh vân xa xôi ngoài kia cũng đang lặng lẽ dõi theo bạn.',
+    '⭐ Mỗi lần một ngôi sao lấp lánh, lại có một điều ước mới ra đời.',
+    '✨ Bạn vừa đánh thức một ngôi sao đang ngủ quên.',
+    '💛 Gửi bạn chút ánh sáng ấm áp giữa trời đêm.',
+    '🌠 May mắn sẽ đến khi bạn ít mong đợi nhất.',
+    '🌟 Ngôi sao lấp lánh nhất, chính là ngôi sao bạn vừa chọn.'
+  ];
+
+  const popup = document.getElementById('popup');
+  const popupText = document.getElementById('popup-text');
+  let lastIndex = -1;
+  let hideTimer = null;
+
+  function randomMessage() {
+    let idx;
+    do { idx = Math.floor(Math.random() * messages.length); } while (idx === lastIndex);
+    lastIndex = idx;
+    return messages[idx];
+  }
+
+  const rareMessages = [
+    '🌠 Bạn vừa bắt được một sao băng — điều ước này chắc chắn linh nghiệm!',
+    '💫 Sao băng hiếm hoi vừa ghé qua bầu trời của bạn.',
+    '✨ Không phải ai cũng bắt kịp một sao băng đâu, may mắn thật đấy.',
+    '🌟 Ước gì thì ước thật nhanh, sao băng sắp tắt rồi!'
+  ];
+  let lastRareIndex = -1;
+
+  function randomRareMessage() {
+    let idx;
+    do { idx = Math.floor(Math.random() * rareMessages.length); } while (idx === lastRareIndex);
+    lastRareIndex = idx;
+    return rareMessages[idx];
+  }
+
+  // Tier "bright" - sao có tia sáng, kể một câu chuyện nhỏ kèm dấu thời gian thật
+  const brightMessages = [
+    'Đừng quên rằng bạn đã đi được xa hơn bạn nghĩ.',
+    'Có những ngày chỉ cần bạn còn cố gắng, vậy là đủ rồi.',
+    'Ánh sáng bạn thấy hôm nay đã bắt đầu từ rất lâu — giống như mọi cố gắng âm thầm của bạn.',
+    'Không ai nhìn thấy hết những gì bạn đã trải qua để đứng ở đây.',
+    'Cứ đi tiếp đi, bầu trời vẫn luôn dõi theo bạn.',
+    'Điều tốt đẹp thường đến sau những ngày tưởng như vô nghĩa nhất.'
+  ];
+  let lastBrightIndex = -1;
+
+  function randomBrightMessage() {
+    let idx;
+    do { idx = Math.floor(Math.random() * brightMessages.length); } while (idx === lastBrightIndex);
+    lastBrightIndex = idx;
+    const t = new Date();
+    const hh = String(t.getHours()).padStart(2, '0');
+    const mm = String(t.getMinutes()).padStart(2, '0');
+    return `✨ Một ngôi sao đang gửi tín hiệu...\n\n"${brightMessages[idx]}"\n\n— Gửi từ bầu trời lúc ${hh}:${mm}`;
+  }
+
+  // Tier "special" - chỉ vài ngôi sao đinh, mang lời nhắn bí mật riêng
+  const specialMessages = [
+    'Đây là một trong những ngôi sao hiếm hoi biết giữ bí mật.\n\nNó muốn nói với bạn: bạn xứng đáng được nghỉ ngơi, không cần lý do gì cả.',
+    'Ngôi sao này chỉ sáng lên khi có người thật sự cần một lời an ủi.\n\nVà lúc này, đó là bạn.',
+    'Nếu vũ trụ có thể thì thầm một điều, có lẽ nó sẽ nói:\n\n"Cảm ơn vì bạn vẫn còn ở đây."'
+  ];
+  let lastSpecialIndex = -1;
+
+  function randomSpecialMessage() {
+    let idx;
+    do { idx = Math.floor(Math.random() * specialMessages.length); } while (idx === lastSpecialIndex);
+    lastSpecialIndex = idx;
+    return '🌟 ' + specialMessages[idx];
+  }
+
+  function showPopup(opts) {
+    opts = opts || {};
+    let variant = '';
+    if (opts.custom) {
+      popupText.textContent = '✨ ' + opts.custom + (opts.author ? `\n\n— từ ${opts.author}` : '');
+      variant = 'rare';
+    } else if (opts.rare) {
+      popupText.textContent = randomRareMessage();
+      variant = 'rare';
+    } else if (opts.tier === 'bright') {
+      popupText.textContent = randomBrightMessage();
+      variant = 'bright';
+    } else if (opts.tier === 'special') {
+      popupText.textContent = randomSpecialMessage();
+      variant = 'rare';
+    } else {
+      popupText.textContent = randomMessage();
+    }
+    popup.classList.toggle('rare', variant === 'rare');
+    popup.classList.add('show');
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => popup.classList.remove('show'), opts.custom || opts.tier ? 4200 : 3200);
+  }
+
+  container.addEventListener('click', (e) => {
+    const hit = e.target.closest('.star-hit');
+    if (!hit) return;
+
+    hit.classList.remove('burst');
+    void hit.offsetWidth; // ép reflow để hiệu ứng chạy lại nếu bấm liên tiếp
+    hit.classList.add('burst');
+    setTimeout(() => hit.classList.remove('burst'), 650);
+
+    if (typeof playChime === 'function') playChime();
+
+    if (hit.dataset.custom) {
+      showPopup({ custom: hit.dataset.custom, author: hit.dataset.author });
+    } else {
+      showPopup({ tier: hit.dataset.tier });
+    }
+  });
+
+  popup.addEventListener('click', () => {
+    clearTimeout(hideTimer);
+    popup.classList.remove('show');
+  });
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---------- Sao băng bất chợt ----------
+  const shootingContainer = document.getElementById('shootingStars');
+
+  function spawnShootingStar() {
+    const el = document.createElement('div');
+    el.className = 'shooting-star';
+
+    const startLeft = (Math.random() * 55).toFixed(2);  // xuất phát từ nửa trên-trái
+    const startTop = (Math.random() * 32).toFixed(2);
+    const angle = (16 + Math.random() * 22).toFixed(1);  // chéo xuống dưới-phải
+    const duration = (1 + Math.random() * 0.9).toFixed(2);
+
+    el.style.left = startLeft + '%';
+    el.style.top = startTop + '%';
+    el.style.setProperty('--angle', angle + 'deg');
+    el.style.setProperty('--flight', duration + 's');
+
+    let settled = false;
+    const remove = () => { if (el.parentNode) el.remove(); };
+
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (settled) return;
+      settled = true;
+
+      // Đóng băng đúng vị trí đang bay dở, tránh bị giật lùi về điểm xuất phát
+      const containerRect = shootingContainer.getBoundingClientRect();
+      const rect = el.getBoundingClientRect();
+      el.style.marginTop = '0px';
+      el.style.left = (rect.left - containerRect.left) + 'px';
+      el.style.top = (rect.top - containerRect.top) + 'px';
+
+      el.classList.remove('flying');
+      el.classList.add('caught');
+      if (typeof playChime === 'function') playChime();
+      setTimeout(() => { if (typeof openWishFlow === 'function') openWishFlow(); }, 260);
+    });
+
+    el.addEventListener('animationend', (e) => {
+      if (e.animationName === 'shootMove') { settled = true; remove(); }
+      if (e.animationName === 'shootCaught') remove();
+    });
+
+    shootingContainer.appendChild(el);
+    requestAnimationFrame(() => el.classList.add('flying'));
+  }
+
+  function scheduleShootingStar() {
+    const delay = 4000 + Math.random() * 7000; // 4–11 giây một lần
+    setTimeout(() => {
+      spawnShootingStar();
+      scheduleShootingStar();
+    }, delay);
+  }
+  if (!reduceMotion) scheduleShootingStar();
+
+  // ---------- Thị sai (parallax) theo chuột / độ nghiêng máy ----------
+  if (!reduceMotion) {
+    const cloudsEl = document.querySelector('.clouds');
+    const starsLayer = document.getElementById('stars');
+
+    let targetX = 0, targetY = 0, curX = 0, curY = 0;
+    let lastTime = performance.now();
+
+    function tick(now) {
+      const dt = Math.min(now - lastTime, 48); // giới hạn để tránh giật khi tab bị treo/khôi phục
+      lastTime = now;
+      const ease = 1 - Math.pow(0.001, dt / 1000); // lerp mượt, không phụ thuộc khung hình/giây
+
+      curX += (targetX - curX) * ease;
+      curY += (targetY - curY) * ease;
+      cloudsEl.style.transform = `translate3d(${curX * 12}px, ${curY * 8}px, 0)`;
+      starsLayer.style.transform = `translate3d(${curX * 22}px, ${curY * 16}px, 0)`;
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    window.addEventListener('mousemove', (e) => {
+      targetX = (e.clientX / window.innerWidth - 0.5) * 2;
+      targetY = (e.clientY / window.innerHeight - 0.5) * 2;
+    });
+    window.addEventListener('mouseleave', () => { targetX = 0; targetY = 0; });
+
+    function handleOrientation(e) {
+      if (e.gamma === null || e.beta === null) return;
+      targetX = Math.max(-1, Math.min(1, e.gamma / 28));
+      targetY = Math.max(-1, Math.min(1, (e.beta - 45) / 28));
+    }
+
+    function enableTilt() {
+      if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+        DeviceOrientationEvent.requestPermission()
+          .then((state) => { if (state === 'granted') window.addEventListener('deviceorientation', handleOrientation); })
+          .catch(() => {});
+      } else if (typeof DeviceOrientationEvent !== 'undefined') {
+        window.addEventListener('deviceorientation', handleOrientation);
+      }
+    }
+    window.addEventListener('touchstart', enableTilt, { once: true });
+    window.addEventListener('click', enableTilt, { once: true });
+  }
+
+  // ======================================================
+  //  DATABASE (window.storage) — sao người dùng tạo, điều ước, tiến trình bí mật, lượt ghé
+  // ======================================================
+  async function dbGet(key) {
+    try { const r = await window.storage.get(key); return r ? JSON.parse(r.value) : null; }
+    catch (e) { return null; }
+  }
+  async function dbSet(key, value) {
+    try { await window.storage.set(key, JSON.stringify(value)); return true; }
+    catch (e) { console.error('Lỗi lưu dữ liệu:', e); return false; }
+  }
+  async function dbListKeys(prefix) {
+    try { const r = await window.storage.list(prefix); return (r && r.keys) ? r.keys : []; }
+    catch (e) { return []; }
+  }
+
+  function openOverlay(el) { el.classList.add('show'); }
+  function closeOverlay(el) { el.classList.remove('show'); }
+
+  document.querySelectorAll('.overlay').forEach((ov) => {
+    ov.addEventListener('click', (e) => { if (e.target === ov) closeOverlay(ov); });
+  });
+
+  // ======================================================
+  //  ÂM THANH BẦU TRỜI — tự tổng hợp bằng Web Audio, không phụ thuộc file ngoài
+  // ======================================================
+  let audioCtx = null;
+  let windNodes = null;
+  let soundOn = false;
+  const soundBtn = document.getElementById('soundBtn');
+
+  function ensureAudio() {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    return audioCtx;
+  }
+  function startWind() {
+    const ctx = ensureAudio();
+    const bufferSize = 2 * ctx.sampleRate;
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+    const noise = ctx.createBufferSource();
+    noise.buffer = buffer;
+    noise.loop = true;
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.value = 420;
+    filter.Q.value = 0.5;
+    const gain = ctx.createGain();
+    gain.gain.value = 0;
+    noise.connect(filter).connect(gain).connect(ctx.destination);
+    noise.start();
+    gain.gain.linearRampToValueAtTime(0.05, ctx.currentTime + 1.4);
+    windNodes = { noise, gain };
+  }
+  function stopWind() {
+    if (!windNodes) return;
+    const ctx = ensureAudio();
+    windNodes.gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.6);
+    const n = windNodes.noise;
+    setTimeout(() => { try { n.stop(); } catch (e) {} }, 700);
+    windNodes = null;
+  }
+  function playChime() {
+    if (!soundOn) return;
+    const ctx = ensureAudio();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = 760 + Math.random() * 260;
+    gain.gain.value = 0.0001;
+    osc.connect(gain).connect(ctx.destination);
+    osc.start();
+    gain.gain.exponentialRampToValueAtTime(0.05, ctx.currentTime + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.9);
+    osc.frequency.exponentialRampToValueAtTime(osc.frequency.value * 1.5, ctx.currentTime + 0.9);
+    osc.stop(ctx.currentTime + 0.95);
+  }
+  soundBtn.addEventListener('click', () => {
+    soundOn = !soundOn;
+    soundBtn.textContent = soundOn ? '🔊' : '🔈';
+    soundBtn.classList.toggle('active', soundOn);
+    if (soundOn) { startWind(); playChime(); } else { stopWind(); }
+  });
+
+  // ======================================================
+  //  NGÔI SAO CỦA RIÊNG BẠN — tạo, lưu lại, hiện lại mỗi lần mở web
+  // ======================================================
+  const createOverlay = document.getElementById('createOverlay');
+  const createMsgEl = document.getElementById('createMsg');
+  const createAuthorEl = document.getElementById('createAuthor');
+
+  function addUserStarToDOM(rec, isNew) {
+    const hit = document.createElement('div');
+    hit.className = 'star-hit';
+    hit.style.left = rec.left + '%';
+    hit.style.top = rec.top + '%';
+    hit.dataset.custom = rec.message;
+    if (rec.author) hit.dataset.author = rec.author;
+
+    const el = document.createElement('div');
+    el.className = 'star user-made';
+    el.style.width = '5.5px';
+    el.style.height = '5.5px';
+
+    hit.appendChild(el);
+    container.appendChild(hit);
+    if (isNew) {
+      hit.classList.add('burst');
+      setTimeout(() => hit.classList.remove('burst'), 650);
+    }
+  }
+  async function loadUserStars() {
+    const keys = await dbListKeys('stars:');
+    for (const key of keys) {
+      const rec = await dbGet(key);
+      if (rec && rec.message) addUserStarToDOM(rec, false);
+    }
+  }
+  loadUserStars();
+
+  document.getElementById('addStarBtn').addEventListener('click', () => {
+    createMsgEl.value = '';
+    createAuthorEl.value = '';
+    openOverlay(createOverlay);
+    setTimeout(() => createMsgEl.focus(), 250);
+  });
+  document.getElementById('createCancel').addEventListener('click', () => closeOverlay(createOverlay));
+  document.getElementById('createSubmit').addEventListener('click', async () => {
+    const msg = createMsgEl.value.trim();
+    if (!msg) { createMsgEl.focus(); return; }
+    const author = createAuthorEl.value.trim();
+    const rec = {
+      message: msg,
+      author: author || null,
+      left: +(10 + Math.random() * 80).toFixed(2),
+      top: +(8 + Math.random() * 60).toFixed(2),
+      created_at: new Date().toISOString()
+    };
+    await dbSet('stars:u' + Date.now() + Math.random().toString(36).slice(2, 7), rec);
+    addUserStarToDOM(rec, true);
+    closeOverlay(createOverlay);
+    playChime();
+    popupText.textContent = '✨ Một ngôi sao mới đã xuất hiện trên bầu trời.\nLần sau mở lại, nó vẫn ở đó.';
+    popup.classList.add('rare', 'show');
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => popup.classList.remove('show'), 4200);
+  });
+
+  // ======================================================
+  //  ĐIỀU ƯỚC THEO SAO BĂNG — viết điều ước rồi thả lên bầu trời, có lưu lại
+  // ======================================================
+  const wishOverlay = document.getElementById('wishOverlay');
+  const wishInputEl = document.getElementById('wishInput');
+
+  function openWishFlow() {
+    wishInputEl.value = '';
+    openOverlay(wishOverlay);
+    setTimeout(() => wishInputEl.focus(), 250);
+  }
+  document.getElementById('wishCancel').addEventListener('click', () => {
+    closeOverlay(wishOverlay);
+    showPopup({ rare: true });
+  });
+  document.getElementById('wishSubmit').addEventListener('click', async () => {
+    const text = wishInputEl.value.trim();
+    closeOverlay(wishOverlay);
+    if (!text) { showPopup({ rare: true }); return; }
+    await dbSet('wishes:w' + Date.now() + Math.random().toString(36).slice(2, 7), { content: text, caught_at: new Date().toISOString() });
+    popupText.textContent = `☄️ Điều ước "${text}" đã bay vào vũ trụ rồi.`;
+    popup.classList.add('rare', 'show');
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => popup.classList.remove('show'), 4200);
+    playChime();
+  });
+
+  // ======================================================
+  //  MẶT TRĂNG KỂ CHUYỆN — pha trăng + câu chuyện đổi theo ngày (ổn định trong cùng 1 ngày)
+  // ======================================================
+  const MOON_PHASES = [
+    { emoji: '🌑', label: 'Trăng non', stories: [
+      'Có những ngày bạn không cần phải mạnh mẽ.\nChỉ cần tiếp tục bước đi.',
+      'Trăng non không tỏa sáng, nhưng nó vẫn ở đó, chờ một chu kỳ mới bắt đầu. Bạn cũng vậy.'
+    ]},
+    { emoji: '🌒', label: 'Trăng khuyết', stories: [
+      'Không phải lúc nào tròn đầy mới là đẹp.\nDở dang đôi khi cũng là một dạng đang lớn lên.',
+      'Trăng khuyết đêm nay đang trên đường trở nên tròn đầy — chậm rãi, nhưng chắc chắn. Giống bạn.'
+    ]},
+    { emoji: '🌕', label: 'Trăng tròn', stories: [
+      'Có những ngày bạn không cần phải mạnh mẽ.\nChỉ cần tiếp tục bước đi.',
+      'Trăng tròn đêm nay soi sáng cả một vùng trời — nhưng nó cũng từng là một vệt trăng khuyết mờ nhạt. Mọi thứ đều cần thời gian.'
+    ]},
+    { emoji: '🌗', label: 'Trăng máu', stories: [
+      'Ngay cả ánh trăng cũng có lúc đổi màu, chịu bóng tối che một phần mình. Rồi nó vẫn quay lại sáng như cũ.',
+      'Trăng máu là lời nhắc: những giai đoạn tối tăm cũng chỉ là tạm thời, không phải mãi mãi.'
+    ]},
+    { emoji: '🔵', label: 'Trăng xanh', stories: [
+      'Trăng xanh là một điều hiếm gặp — giống như những ngày mọi thứ bỗng dưng suôn sẻ. Trân trọng nó khi nó đến.',
+      'Không phải tháng nào trăng xanh cũng xuất hiện. Hôm nay là một trong những lần hiếm hoi đó — của bạn.'
+    ]}
+  ];
+  function seedFromDate(d) {
+    const s = d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate();
+    let h = 0;
+    for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+    return h;
+  }
+  function todayMoon() {
+    const seed = seedFromDate(new Date());
+    const phase = MOON_PHASES[seed % MOON_PHASES.length];
+    const story = phase.stories[Math.floor(seed / MOON_PHASES.length) % phase.stories.length];
+    return { phase, story };
+  }
+
+  const moonOverlay = document.getElementById('moonOverlay');
+  document.getElementById('moon').addEventListener('click', () => {
+    const { phase, story } = todayMoon();
+    const d = new Date();
+    document.getElementById('moonTitle').textContent = `${phase.emoji} Mặt trăng hôm nay kể rằng`;
+    document.getElementById('moonStory').textContent = story;
+    document.getElementById('moonMeta').textContent = `${phase.label} · ${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}`;
+    openOverlay(moonOverlay);
+    playChime();
+  });
+  document.getElementById('moonClose').addEventListener('click', () => closeOverlay(moonOverlay));
+
+  // ======================================================
+  //  EASTER EGG — ngôi sao bí mật, cần bấm đủ 7 lần mới mở khoá
+  // ======================================================
+  const secretOverlay = document.getElementById('secretOverlay');
+  const secretStar = document.createElement('div');
+  secretStar.className = 'secret-star';
+  secretStar.style.left = (8 + Math.random() * 84).toFixed(2) + '%';
+  secretStar.style.top = (10 + Math.random() * 78).toFixed(2) + '%';
+  container.appendChild(secretStar);
+
+  let secretCount = 0;
+  dbGet('secret_progress').then((saved) => { if (saved) secretCount = saved.click_count || 0; });
+
+  secretStar.addEventListener('click', async (e) => {
+    e.stopPropagation();
+    if (secretCount >= 7) { openOverlay(secretOverlay); return; }
+    secretCount++;
+    secretStar.style.opacity = Math.min(0.12 + secretCount * 0.03, 0.4);
+    await dbSet('secret_progress', { click_count: secretCount, unlocked: secretCount >= 7 });
+    if (secretCount >= 7) openOverlay(secretOverlay);
+  });
+  document.getElementById('secretClose').addEventListener('click', () => closeOverlay(secretOverlay));
+
+  // ======================================================
+  //  LỜI CHÀO THEO THỜI ĐIỂM MỞ WEB + GHI LƯỢT GHÉ
+  // ======================================================
+  (function initGreeting() {
+    const hour = new Date().getHours();
+    let text;
+    if (hour >= 5 && hour < 11) text = '☀️ Chào buổi sáng — hẹn gặp lại khi màn đêm đến nhé.';
+    else if (hour >= 11 && hour < 17) text = '🌤️ Bầu trời đang chờ đến tối để lấp lánh cho bạn xem.';
+    else if (hour >= 17 && hour < 22) text = '🌙 Chào mừng bạn trở lại bầu trời đêm nay.';
+    else text = '🌌 Khuya rồi — có vẻ hôm nay bạn đã cố gắng rất nhiều.';
+
+    const g = document.getElementById('greeting');
+    g.textContent = text;
+    requestAnimationFrame(() => g.classList.add('show'));
+    const t = setTimeout(() => g.classList.remove('show'), 5000);
+    g.addEventListener('click', () => { clearTimeout(t); g.classList.remove('show'); });
+  })();
+
+  dbSet('visits:v' + Date.now(), { visited_at: new Date().toISOString(), hour: new Date().getHours() });
+
+  // ======================================================
+  //  CHÒM SAO KỶ NIỆM — cụm 15 sao hình trái tim, cố định ngay từ đầu
+  // ======================================================
+  (function heartConstellation() {
+    const ANNIV_LABEL = '13/09';
+    const ANNIV_NOTE = 'Duyên Rùa';
+    const CENTER_LEFT = 22, CENTER_TOP = 78, SCALE = 9; // % khung hình, có thể chỉnh SCALE để to/nhỏ
+
+    // Toạ độ chuẩn hoá (0..1) phác hình trái tim, đã chọn 15 điểm rải đều theo viền
+    const HEART_POINTS = [
+      [0.00, -0.55], [-0.35, -0.85], [-0.68, -0.65], [-0.85, -0.30],
+      [-0.75, 0.05], [-0.45, 0.40], [-0.18, 0.65], [0.00, 0.85],
+      [0.18, 0.65], [0.45, 0.40], [0.75, 0.05], [0.85, -0.30],
+      [0.68, -0.65], [0.35, -0.85], [0.00, -0.20]
+    ];
+
+    const heartStars = HEART_POINTS.map(([hx, hy]) => ({
+      left: CENTER_LEFT + hx * SCALE,
+      top: CENTER_TOP + hy * SCALE * 0.9
+    }));
+
+    heartStars.forEach((p) => {
+      const hit = document.createElement('div');
+      hit.className = 'star-hit';
+      hit.style.left = p.left + '%';
+      hit.style.top = p.top + '%';
+      hit.dataset.custom = `Ngày ${ANNIV_LABEL}, bầu trời đã có thêm một vì sao.\n\n${ANNIV_NOTE}`;
+
+      const el = document.createElement('div');
+      el.className = 'star heart';
+      el.style.width = '5px';
+      el.style.height = '5px';
+      hit.appendChild(el);
+      container.appendChild(hit);
+    });
+  })();
+</script>
+</body>
+</html>
